@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAFAFC;
+  --foreground: #111113;
+  --primary: #cd7522;
+  --purple: #696af6;
+  --lavender-1: #dad9f9;
+  --lavender-2: #c5c2f9;
+  --warm-peach: #eac4ad;
+  --charcoal: #62616b;
+  --ink: #111113;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-purple: var(--purple);
+  --color-lavender-1: var(--lavender-1);
+  --color-lavender-2: var(--lavender-2);
+  --color-warm-peach: var(--warm-peach);
+  --color-charcoal: var(--charcoal);
+  --color-ink: var(--ink);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: var(--background);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Gradient glow blobs - use as background elements */
+.glow-blob-purple {
+  background: radial-gradient(ellipse 80% 50% at 50% 50%, var(--lavender-1) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.6;
+}
+
+.glow-blob-orange {
+  background: radial-gradient(ellipse 80% 50% at 50% 50%, var(--warm-peach) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.5;
+}
+
+.glow-blob-purple-strong {
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, var(--purple) 0%, var(--lavender-1) 40%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.4;
+}
+
+.glow-blob-orange-strong {
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, var(--primary) 0%, var(--warm-peach) 40%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.35;
+}
+
+@keyframes blob-drift-slow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -10px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.glow-blob-purple-strong,
+.glow-blob-orange-strong {
+  animation: blob-drift-slow 32s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-blob-purple-strong,
+  .glow-blob-orange-strong {
+    animation: none;
+  }
 }
