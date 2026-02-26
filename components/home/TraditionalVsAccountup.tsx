@@ -21,7 +21,7 @@ export function TraditionalVsAccountup() {
       viewport={{ once: true, amount: 0.2 }}
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-medium text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display">
+        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display">
           Traditional Firms vs{" "}
           <Image
             src="/assets/logos/AccountUp_Logo(1).png"
@@ -37,10 +37,10 @@ export function TraditionalVsAccountup() {
             transition={{ duration: 0.6, delay: 0.18 }}
           >
             <Card variant="lavender" className="p-8 md:p-10">
-              <h3 className="text-xl font-semibold text-ink mb-2 font-display">
+              <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Traditional Accounting
               </h3>
-              <p className="text-sm text-charcoal mb-6">
+              <p className="text-base text-charcoal/90 leading-relaxed mb-6">
                 Manual processes, delayed insights, reactive support.
               </p>
               <DashboardVideo
@@ -50,7 +50,7 @@ export function TraditionalVsAccountup() {
               />
               <ul className="space-y-3">
                 {TRADITIONAL_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-charcoal">
+                  <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
                     <span className="text-charcoal/60 mt-0.5">×</span>
                     {item}
                   </li>
@@ -64,10 +64,10 @@ export function TraditionalVsAccountup() {
           >
             <Card variant="lavender" className="p-8 md:p-10">
               <div className="h-0.5 w-16 rounded-full bg-purple mb-4" />
-              <h3 className="text-xl font-semibold text-ink mb-2 font-display">
+              <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Accountup System
               </h3>
-              <p className="text-sm text-charcoal mb-6">
+              <p className="text-base text-charcoal/90 leading-relaxed mb-6">
                 Real-time, systemized, investor-ready.
               </p>
               <DashboardVideo
@@ -77,7 +77,7 @@ export function TraditionalVsAccountup() {
               />
               <ul className="space-y-3">
                 {ACCOUNTUP_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-charcoal">
+                  <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
                     <span className="text-purple mt-0.5">✓</span>
                     {item}
                   </li>

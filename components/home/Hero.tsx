@@ -11,7 +11,7 @@ export function Hero() {
 
   return (
     <motion.section
-      className="relative overflow-hidden hero-gradient px-6 pt-24 pb-20 md:pt-32 md:pb-28"
+      className="relative overflow-hidden hero-gradient px-6 pt-28 pb-20 md:pt-32 md:pb-28"
       variants={staggerContainer}
       initial={reduceMotion ? false : "hidden"}
       animate={reduceMotion ? undefined : "visible"}

@@ -216,15 +216,15 @@ export function TrustedBy() {
           mask-image: linear-gradient(
             90deg,
             transparent 0%,
-            #000 12%,
-            #000 88%,
+            #000 8%,
+            #000 92%,
             transparent 100%
           );
           -webkit-mask-image: linear-gradient(
             90deg,
             transparent 0%,
-            #000 12%,
-            #000 88%,
+            #000 8%,
+            #000 92%,
             transparent 100%
           );
         }
