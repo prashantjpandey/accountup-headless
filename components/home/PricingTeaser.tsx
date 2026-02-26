@@ -12,7 +12,7 @@ export function PricingTeaser() {
 
   return (
     <motion.section
-      className="py-20 md:py-28 px-6 bg-background"
+      className="py-20 md:py-28 px-6 bg-background-alt"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
@@ -20,7 +20,7 @@ export function PricingTeaser() {
     >
       <div className="mx-auto max-w-6xl">
         <motion.h2
-          className="text-3xl font-semibold text-ink text-center mb-4"
+          className="text-3xl font-medium text-ink text-center mb-4 font-display"
           variants={fadeUp}
         >
           Simple pricing
@@ -46,9 +46,9 @@ export function PricingTeaser() {
                     Recommended
                   </span>
                 )}
-                <h3 className="text-xl font-semibold text-ink">{tier.name}</h3>
+                <h3 className="text-xl font-semibold text-ink font-display">{tier.name}</h3>
                 <p className="text-sm text-charcoal mt-1">{tier.description}</p>
-                <p className="mt-4 text-2xl font-semibold text-ink">
+                <p className="mt-4 text-2xl font-medium text-ink">
                   {tier.price}
                   <span className="text-base font-normal text-charcoal">
                     {tier.period}

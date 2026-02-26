@@ -3,67 +3,56 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
 import { Button } from "@/app/components/Button";
 
 export function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const isTransparent = pathname === "/" && !scrolled;
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-200 ${
-        isTransparent
-          ? "bg-transparent"
-          : "bg-background/90 backdrop-blur-md border-b border-lavender-1/30"
-      }`}
-    >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link
-          href="/"
-          className="inline-flex items-center text-xl font-semibold tracking-tight text-ink hover:opacity-90 transition-opacity lowercase"
-          aria-label="Accountup home"
-        >
-          <Image
-            src="/assets/logos/AccountUp_Logo(1).png"
-            alt="Accountup"
-            width={120}
-            height={32}
-            className="h-7 w-auto"
-            priority
-          />
-        </Link>
-        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8" aria-label="Main">
-          {NAV_LINKS.map(({ href, label }) => {
-            const isActive =
-              (href === "/" && pathname === "/") ||
-              (href !== "/" && pathname.startsWith(href.split("#")[0]));
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`text-sm font-medium transition-colors ${
-                  isActive ? "text-purple" : "text-charcoal hover:text-purple"
-                }`}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="flex items-center gap-4">
-          <Button href="/#contact" variant="primary">
-            Get a Demo
-          </Button>
+    <header className="sticky top-0 z-50 w-full px-4 pt-4 md:px-6 md:pt-5">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex h-14 items-center justify-between rounded-full border border-white/80 bg-white px-5 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] md:h-[3.25rem] md:px-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-0.5 text-xl font-semibold tracking-tight lowercase"
+            aria-label="Accountup home"
+          >
+            <Image
+              src="/assets/logos/AccountUp_Logo(1).png"
+              alt="Accountup"
+              width={150}
+              height={40}
+              className="h-8 w-auto md:h-9"
+              priority
+            />
+          </Link>
+          <nav
+            className="absolute left-1/2 hidden -translate-x-1/2 md:flex md:items-center md:gap-7"
+            aria-label="Main"
+          >
+            {NAV_LINKS.map(({ href, label }) => {
+              const isActive =
+                href !== "/" &&
+                (pathname === href || pathname.startsWith(href.split("#")[0]));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`text-sm font-semibold transition-colors ${
+                    isActive ? "text-purple" : "text-ink hover:text-purple"
+                  }`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="flex items-center">
+            <Button href="/#contact" variant="primary">
+              Contact Us
+            </Button>
+          </div>
         </div>
       </div>
     </header>

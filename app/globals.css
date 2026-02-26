@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAFAFC;
+  --background: #FBF9F8;
   --foreground: #111113;
+  --background-alt: #F8F7FC;
   --primary: #cd7522;
   --purple: #696af6;
   --lavender-1: #dad9f9;
@@ -10,10 +11,12 @@
   --warm-peach: #eac4ad;
   --charcoal: #62616b;
   --ink: #111113;
+  --font-display: var(--font-space-grotesk);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-purple: var(--purple);
@@ -22,8 +25,9 @@
   --color-warm-peach: var(--warm-peach);
   --color-charcoal: var(--charcoal);
   --color-ink: var(--ink);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-space-grotesk);
 }
 
 body {
@@ -91,4 +95,41 @@ body {
   .glow-blob-orange-strong {
     animation: none;
   }
+}
+
+/* Hero section: smooth diagonal gradient (cool lavender → warm peach) */
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--lavender-1) 0%,
+    #e8e7f8 18%,
+    var(--lavender-2) 35%,
+    rgba(196, 194, 249, 0.9) 50%,
+    var(--warm-peach) 75%,
+    #f0d9c9 100%
+  );
+}
+
+/* First section below hero: vertical bleed from hero palette into page background */
+.hero-bleed {
+  background: linear-gradient(
+    to bottom,
+    #f0d9c9 0%,
+    var(--background) 100%
+  );
+}
+
+/* Compare section: purple & orange gradient band, seamless top/bottom with page background */
+.compare-gradient {
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    #f2eff9 10%,
+    #eae5f6 22%,
+    #e8e0f0 35%,
+    #efe0d8 50%,
+    #eae0f0 65%,
+    #f0eae8 80%,
+    var(--background) 100%
+  );
 }

@@ -25,7 +25,7 @@ export function StackBuilderCta() {
         variants={staggerContainer}
       >
         <motion.h2
-          className="text-3xl font-semibold text-ink md:text-4xl"
+          className="text-3xl font-medium text-ink md:text-4xl font-display"
           variants={fadeUp}
         >
           Build Your Accounting & Finance Stack in 30 Seconds

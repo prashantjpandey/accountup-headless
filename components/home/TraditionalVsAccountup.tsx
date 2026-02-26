@@ -13,7 +13,7 @@ export function TraditionalVsAccountup() {
 
   return (
     <motion.section
-      className="py-20 md:py-28 px-6 bg-background"
+      className="py-20 md:py-28 px-6 compare-gradient"
       id="compare"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
@@ -21,7 +21,7 @@ export function TraditionalVsAccountup() {
       viewport={{ once: true, amount: 0.2 }}
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-semibold text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2">
+        <h2 className="text-3xl font-medium text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display">
           Traditional Firms vs{" "}
           <Image
             src="/assets/logos/AccountUp_Logo(1).png"
@@ -37,7 +37,7 @@ export function TraditionalVsAccountup() {
             transition={{ duration: 0.6, delay: 0.18 }}
           >
             <Card variant="lavender" className="p-8 md:p-10">
-              <h3 className="text-xl font-semibold text-ink mb-2">
+              <h3 className="text-xl font-semibold text-ink mb-2 font-display">
                 Traditional Accounting
               </h3>
               <p className="text-sm text-charcoal mb-6">
@@ -62,12 +62,9 @@ export function TraditionalVsAccountup() {
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <Card
-              variant="emphasized"
-              className="p-8 md:p-10 border-purple/40"
-            >
+            <Card variant="lavender" className="p-8 md:p-10">
               <div className="h-0.5 w-16 rounded-full bg-purple mb-4" />
-              <h3 className="text-xl font-semibold text-ink mb-2">
+              <h3 className="text-xl font-semibold text-ink mb-2 font-display">
                 Accountup System
               </h3>
               <p className="text-sm text-charcoal mb-6">

@@ -20,7 +20,7 @@ export function Accordion({ items }: AccordionProps) {
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="flex w-full items-center justify-between py-5 text-left text-base font-medium text-ink hover:text-purple transition-colors focus:outline-none focus:ring-2 focus:ring-purple/40 focus:ring-offset-2 rounded"
+              className="flex w-full items-center justify-between py-5 text-left text-base font-semibold text-ink hover:text-purple transition-colors focus:outline-none focus:ring-2 focus:ring-purple/40 focus:ring-offset-2 rounded"
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${i}`}
               id={`faq-question-${i}`}

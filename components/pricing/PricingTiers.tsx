@@ -17,9 +17,9 @@ export function PricingTiers() {
               Recommended
             </span>
           )}
-          <h3 className="text-xl font-semibold text-ink">{tier.name}</h3>
+          <h3 className="text-xl font-semibold text-ink font-display">{tier.name}</h3>
           <p className="text-sm text-charcoal mt-1">{tier.description}</p>
-          <p className="mt-4 text-2xl font-semibold text-ink">
+          <p className="mt-4 text-2xl font-medium text-ink">
             {tier.price}
             <span className="text-base font-normal text-charcoal">
               {tier.period}

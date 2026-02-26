@@ -11,16 +11,17 @@ export function CoreServices() {
 
   return (
     <motion.section
-      className="py-20 md:py-28 px-6 bg-background"
+      className="relative overflow-hidden py-20 md:py-28 px-6 bg-background"
       id="services"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="absolute top-0 right-0 w-[380px] h-[280px] glow-blob-purple opacity-20 pointer-events-none" />
+      <div className="mx-auto max-w-7xl relative">
         <motion.h2
-          className="text-3xl font-semibold text-ink text-center mb-16"
+          className="text-3xl font-medium text-ink text-center mb-16 font-display"
           variants={fadeUp}
         >
           What We Do
@@ -29,17 +30,17 @@ export function CoreServices() {
           {CORE_SERVICES.map((service) => (
             <motion.div
               key={service.id}
-              className="grid md:grid-cols-2 gap-8 md:gap-12 items-center rounded-2xl border border-white/40 bg-white/50 px-6 py-8 md:px-10 md:py-10 backdrop-blur-md shadow-sm"
+              className="grid md:grid-cols-2 gap-8 md:gap-12 items-center rounded-2xl border border-white/40 bg-white/50 px-8 py-10 md:px-12 md:py-12 backdrop-blur-md shadow-sm"
               variants={staggerContainer}
             >
               <motion.div variants={fadeUp}>
-                <h3 className="text-xl font-semibold text-ink">
+                <h3 className="text-2xl font-medium text-ink font-display">
                   {service.title}
                 </h3>
-                <p className="text-sm text-purple font-medium mt-0.5">
+                <p className="text-base text-purple font-medium mt-0.5">
                   {service.subtitle}
                 </p>
-                <p className="mt-4 text-sm text-charcoal leading-relaxed">
+                <p className="mt-4 text-base text-charcoal leading-relaxed">
                   {service.description}
                 </p>
                 <motion.ul
@@ -49,7 +50,7 @@ export function CoreServices() {
                   {service.bullets.map((bullet) => (
                     <motion.li
                       key={bullet}
-                      className="text-sm text-charcoal flex items-start gap-2"
+                      className="text-sm md:text-base text-charcoal flex items-start gap-2"
                       variants={fadeUp}
                     >
                       <span className="text-purple shrink-0">✓</span>

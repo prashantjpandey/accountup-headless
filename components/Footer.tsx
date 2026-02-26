@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <Link
               href="/"
-              className="text-lg font-semibold tracking-tight text-ink hover:text-purple transition-colors lowercase block"
+              className="text-lg font-semibold tracking-tight text-ink hover:text-purple transition-colors lowercase block font-display"
             >
               accountup
             </Link>

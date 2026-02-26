@@ -104,6 +104,7 @@ export function TrustedBy() {
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
+    if ((event.target as Element)?.closest?.("a")) return;
     isDraggingRef.current = true;
     setIsDragging(true);
     dragStartRef.current = event.clientX;
@@ -146,14 +147,14 @@ export function TrustedBy() {
 
   return (
     <motion.section
-      className="bg-white py-16 px-6 border-y border-lavender-1/30"
+      className="hero-bleed py-16 px-6"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount: 0.2 }}
     >
       <div className="mx-auto max-w-6xl">
-        <p className="mb-10 text-center text-sm font-medium text-charcoal">
+        <p className="mb-10 text-center text-sm font-semibold text-charcoal">
           Trusted by Startup Founders
         </p>
 
@@ -168,19 +169,37 @@ export function TrustedBy() {
             onPointerCancel={stopDragging}
           >
             <div ref={trackRef} className="logo-track">
-              {logos.map(({ name, src }, index) => (
+              {logos.map(({ name, src, href }, index) => (
                 <div
                   key={`${name}-${index}`}
                   className="flex flex-none items-center justify-center px-5"
                 >
-                  <Image
-                    src={src}
-                    alt={name}
-                    width={360}
-                    height={112}
-                    draggable={false}
-                    className="h-[4.5rem] w-auto grayscale opacity-70 transition hover:opacity-100 hover:grayscale-0 sm:h-20 md:h-[5.5rem]"
-                  />
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={`${name} website`}
+                    >
+                      <Image
+                        src={src}
+                        alt={name}
+                        width={360}
+                        height={112}
+                        draggable={false}
+                        className="h-[4.5rem] w-auto grayscale opacity-70 transition hover:opacity-100 hover:grayscale-0 sm:h-20 md:h-[5.5rem]"
+                      />
+                    </a>
+                  ) : (
+                    <Image
+                      src={src}
+                      alt={name}
+                      width={360}
+                      height={112}
+                      draggable={false}
+                      className="h-[4.5rem] w-auto grayscale opacity-70 transition hover:opacity-100 hover:grayscale-0 sm:h-20 md:h-[5.5rem]"
+                    />
+                  )}
                 </div>
               ))}
             </div>

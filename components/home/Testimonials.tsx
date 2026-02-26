@@ -18,7 +18,7 @@ export function Testimonials() {
     >
       <div className="mx-auto max-w-6xl">
         <motion.h2
-          className="text-3xl font-semibold text-ink text-center mb-16"
+          className="text-3xl font-medium text-ink text-center mb-16 font-display"
           variants={fadeUp}
         >
           Trusted by founders

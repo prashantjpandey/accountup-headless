@@ -2,9 +2,9 @@ import { ADDONS } from "@/lib/constants";
 
 export function AddOns() {
   return (
-    <section className="py-16 md:py-20 px-6 bg-background">
+    <section className="py-16 md:py-20 px-6 bg-background-alt">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-2xl font-semibold text-ink mb-2">Add-ons</h2>
+        <h2 className="text-2xl font-medium text-ink mb-2 font-display">Add-ons</h2>
         <p className="text-charcoal text-sm mb-10">
           Optional services available with any plan.
         </p>

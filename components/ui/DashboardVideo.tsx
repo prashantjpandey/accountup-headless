@@ -13,7 +13,7 @@ export function DashboardVideo({
 }: DashboardVideoProps) {
   return (
     <div
-      className={`relative overflow-hidden w-full rounded-2xl shadow-sm transition-transform transition-shadow duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md ${className}`}
+      className={`relative overflow-hidden w-full ${className}`}
     >
       <LazyVideo
         src={src}

@@ -17,7 +17,7 @@ export function ContactSection() {
 
   return (
     <motion.section
-      className="py-20 md:py-28 px-6 bg-background"
+      className="py-20 md:py-28 px-6 bg-background-alt"
       id="contact"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
@@ -33,7 +33,7 @@ export function ContactSection() {
           <Card className="relative p-8 md:p-12">
             <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
               <motion.div variants={fadeUp}>
-                <h2 className="text-3xl font-semibold text-ink">
+                <h2 className="text-3xl font-medium text-ink font-display">
                   Get in Touch
                 </h2>
               </motion.div>
@@ -44,7 +44,7 @@ export function ContactSection() {
               >
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="contact-name" className="block text-sm font-medium text-ink mb-1">
+                    <label htmlFor="contact-name" className="block text-sm font-semibold text-ink mb-1">
                       Name
                     </label>
                     <input
@@ -57,7 +57,7 @@ export function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="block text-sm font-medium text-ink mb-1">
+                    <label htmlFor="contact-email" className="block text-sm font-semibold text-ink mb-1">
                       Email
                     </label>
                     <input
@@ -72,7 +72,7 @@ export function ContactSection() {
                 </div>
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="contact-company" className="block text-sm font-medium text-ink mb-1">
+                    <label htmlFor="contact-company" className="block text-sm font-semibold text-ink mb-1">
                       Company
                     </label>
                     <input
@@ -84,7 +84,7 @@ export function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-phone" className="block text-sm font-medium text-ink mb-1">
+                    <label htmlFor="contact-phone" className="block text-sm font-semibold text-ink mb-1">
                       Phone Number
                     </label>
                     <input
@@ -97,7 +97,7 @@ export function ContactSection() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-ink mb-1">
+                  <label htmlFor="contact-message" className="block text-sm font-semibold text-ink mb-1">
                     Message
                   </label>
                   <textarea

@@ -16,7 +16,7 @@ export default function PricingPage() {
     <>
       <section className="pt-24 pb-16 md:pt-32 md:pb-20 px-6 bg-background">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+          <h1 className="text-4xl font-medium tracking-tight text-ink md:text-5xl font-display">
             Simple Pricing for Startup Accounting
           </h1>
           <p className="mt-6 text-lg text-charcoal max-w-xl mx-auto">
@@ -31,9 +31,9 @@ export default function PricingPage() {
       </section>
       <AddOns />
       <Faq />
-      <section className="py-20 px-6 bg-background">
+      <section className="py-20 px-6 bg-background-alt">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-semibold text-ink">
+          <h2 className="text-2xl font-medium text-ink font-display">
             Ready to get started?
           </h2>
           <p className="mt-3 text-charcoal text-sm">

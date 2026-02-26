@@ -11,7 +11,7 @@ export function Hero() {
 
   return (
     <motion.section
-      className="relative overflow-hidden bg-background px-6 pt-24 pb-20 md:pt-32 md:pb-28"
+      className="relative overflow-hidden hero-gradient px-6 pt-24 pb-20 md:pt-32 md:pb-28"
       variants={staggerContainer}
       initial={reduceMotion ? false : "hidden"}
       animate={reduceMotion ? undefined : "visible"}
@@ -19,11 +19,18 @@ export function Hero() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] glow-blob-purple-strong" />
         <div className="absolute bottom-1/4 -right-20 w-[400px] h-[400px] glow-blob-orange-strong" />
+        {/* Soft bottom fade so gradient bleeds into TrustedBy with no hard line */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[28%] min-h-[120px]"
+          style={{
+            background: "linear-gradient(to bottom, transparent 0%, #f0d9c9 100%)",
+          }}
+        />
       </div>
       <div className="relative mx-auto max-w-6xl grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div className="max-w-xl">
           <motion.h1
-            className="text-4xl font-semibold tracking-tight text-ink md:text-5xl lg:text-6xl leading-[1.1]"
+            className="text-4xl font-medium tracking-tight text-ink md:text-5xl lg:text-6xl leading-[1.1] font-display"
             variants={fadeUp}
             transition={{ duration: 0.6 }}
           >
@@ -50,7 +57,7 @@ export function Hero() {
             </Button>
             <Link
               href="/#contact"
-              className="text-sm font-medium text-charcoal hover:text-purple transition-colors"
+              className="text-sm font-semibold text-charcoal hover:text-purple transition-colors"
             >
               Talk to an Expert
             </Link>
@@ -61,16 +68,9 @@ export function Hero() {
           variants={softScaleIn}
           transition={{ duration: 0.6 }}
         >
-          <div className="absolute inset-0 w-full max-w-lg mx-auto h-[280px] md:h-[320px] glow-blob-purple opacity-40" />
+          <div className="absolute inset-0 w-full max-w-xl mx-auto h-[420px] md:h-[480px] glow-blob-purple opacity-40" />
           <motion.div
-            className="relative w-full max-w-lg aspect-video flex justify-center rounded-2xl"
-            initial={reduceMotion ? undefined : { boxShadow: "0 4px 18px -8px rgba(15,23,42,0.18)" }}
-            animate={
-              reduceMotion
-                ? undefined
-                : { boxShadow: "0 16px 45px -18px rgba(15,23,42,0.45)" }
-            }
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="relative w-full max-w-xl aspect-video flex justify-center"
           >
             <HeroVideo />
           </motion.div>

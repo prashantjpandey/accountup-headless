@@ -61,7 +61,7 @@ export function Pricing() {
             >
               <h3 className="prose-h3 text-neutral-900">{tier.name}</h3>
               <p className="prose-body mt-3">{tier.description}</p>
-              <p className="text-2xl font-semibold text-neutral-900 mt-6">
+              <p className="text-2xl font-medium text-neutral-900 mt-6">
                 {tier.price}
               </p>
               <ul className="mt-6 space-y-3">

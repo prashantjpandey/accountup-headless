@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
-  { href: "/", label: "Home" },
+  { href: "/#services", label: "Services" },
+  { href: "/#services", label: "Build FinOps Stack" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export const FOOTER_COLUMNS = {
