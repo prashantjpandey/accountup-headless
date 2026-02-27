@@ -36,9 +36,11 @@ export function Header() {
           </Link>
           <div className="absolute left-1/2 hidden -translate-x-1/2 md:flex md:items-center md:gap-7">
             {NAV_LINKS.map(({ href, label }) => {
-              const isActive =
-                href !== "/" &&
-                (pathname === href || pathname.startsWith(href.split("#")[0]));
+              const [pathOnly] = href.split("#");
+              const isHashLink = href.includes("#");
+              const isActive = isHashLink
+                ? pathname === pathOnly
+                : pathname === href || pathname.startsWith(`${href}/`);
               return (
                 <Link
                   key={href}

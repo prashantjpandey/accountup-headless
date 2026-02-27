@@ -1,34 +1,62 @@
 "use client";
 
+import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
+
+type ButtonVariant = "primary" | "secondary" | "purple";
+type ButtonSize = "md" | "lg";
+
 type ButtonProps = {
-  children: React.ReactNode;
-  variant?: "primary" | "secondary";
+  children: ReactNode;
+  asChild?: boolean;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   className?: string;
   href?: string;
-  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
+  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 };
 
 export function Button({
   children,
+  asChild = false,
   variant = "primary",
+  size = "md",
   className = "",
   href,
+  type = "button",
   onClick,
 }: ButtonProps) {
   const base =
-    "inline-flex h-12 items-center justify-center rounded-full px-6 font-medium transition-transform transition-colors transition-shadow duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-purple/25 focus:ring-offset-0";
-  const primary =
-    "bg-neutral-900 text-white shadow-sm hover:bg-neutral-800 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm";
-  const secondary =
-    "border border-neutral-200 bg-white text-neutral-900 shadow-sm hover:border-neutral-300 hover:bg-neutral-50 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm";
+    "inline-flex items-center justify-center rounded-full font-medium transition-transform transition-colors transition-shadow duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-purple/25 focus:ring-offset-0";
+  const sizeStyles: Record<ButtonSize, string> = {
+    md: "h-11 px-5 text-sm",
+    lg: "h-12 px-6 text-base",
+  };
+  const variantStyles: Record<ButtonVariant, string> = {
+    primary:
+      "bg-neutral-900 text-white shadow-sm hover:bg-neutral-800 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm",
+    secondary:
+      "border border-neutral-200 bg-white text-neutral-900 shadow-sm hover:border-neutral-300 hover:bg-neutral-50 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm",
+    purple:
+      "bg-purple text-white shadow-sm hover:bg-[#5f63ea] hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm",
+  };
 
-  const classes = `no-underline ${base} ${variant === "primary" ? primary : secondary} ${className}`;
+  const classes = `no-underline ${base} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`.trim();
+
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<{ className?: string }>;
+    const childClassName = child.props.className ?? "";
+    return cloneElement(child, {
+      className: `${classes} ${childClassName}`.trim(),
+    });
+  }
 
   if (href) {
     return (
       <a
         href={href}
         className={classes}
+        onClick={onClick}
       >
         {children}
       </a>
@@ -37,7 +65,7 @@ export function Button({
 
   return (
     <button
-      type="button"
+      type={type}
       className={classes}
       onClick={onClick}
     >

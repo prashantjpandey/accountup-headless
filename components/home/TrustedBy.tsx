@@ -12,7 +12,7 @@ export function TrustedBy() {
   const logos = [...clientLogos, ...clientLogos];
   const marqueeRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef(0);
