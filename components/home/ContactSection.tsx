@@ -5,26 +5,76 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { fadeUp, staggerContainer, useReducedMotionSafe } from "@/lib/animations";
 
+type SubmitStatus = "idle" | "success" | "duplicate" | "error";
+
 export function ContactSection() {
   const reduceMotion = useReducedMotionSafe();
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!showSuccess) return undefined;
+    if (status === "idle") return undefined;
     const timeout = window.setTimeout(() => {
-      setShowSuccess(false);
-    }, 2400);
-
+      setStatus("idle");
+      setErrorMessage(null);
+      setDebugInfo(null);
+    }, 5000);
     return () => window.clearTimeout(timeout);
-  }, [showSuccess]);
+  }, [status]);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    console.log("Contact form (v1):", Object.fromEntries(data));
-    form.reset();
-    setShowSuccess(true);
+    const payload = {
+      name: (data.get("name") as string) ?? "",
+      email: (data.get("email") as string) ?? "",
+      company: (data.get("company") as string) ?? "",
+      monthlyExpensesRange: (data.get("monthlyExpensesRange") as string) ?? "",
+      teamSizeRange: (data.get("teamSizeRange") as string) ?? "",
+      message: (data.get("message") as string) ?? "",
+      pageSource: "homepage-contact",
+    };
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+    setDebugInfo(null);
+    setStatus("idle");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+
+      if (json.ok) {
+        if (json.duplicate) {
+          setStatus("duplicate");
+        } else {
+          form.reset();
+          setStatus("success");
+        }
+      } else {
+        setStatus("error");
+        setErrorMessage(json.error ?? "Something went wrong. Please try again in a moment.");
+        if (json.debug) {
+          if (json.debug.missingEnv) {
+            setDebugInfo("Missing env: " + json.debug.missingEnv.join(", "));
+          } else if (json.debug.wixStatus != null) {
+            setDebugInfo(`Wix API ${json.debug.wixStatus}: ${json.debug.wixMessage ?? ""}`);
+          }
+        }
+      }
+    } catch {
+      setStatus("error");
+      setErrorMessage("Something went wrong sending your message. Please try again in a moment.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -176,15 +226,30 @@ export function ContactSection() {
               </div>
 
               <div className="pt-1">
-                <Button type="submit" variant="purple" size="lg" className="w-full sm:w-auto">
-                  Start conversation
+                <Button type="submit" variant="purple" size="lg" className="w-full sm:w-auto" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending…" : "Start conversation"}
                 </Button>
                 <p className="mt-2 text-xs text-charcoal">We reply within 24 hours.</p>
-                {showSuccess ? (
+                {status === "success" && (
                   <p className="mt-2 text-sm font-medium text-purple" role="status" aria-live="polite">
-                    Thanks, we will be in touch shortly.
+                    Thanks—your details are in. We&apos;ll reach out within 24 hours.
                   </p>
-                ) : null}
+                )}
+                {status === "duplicate" && (
+                  <p className="mt-2 text-sm font-medium text-purple" role="status" aria-live="polite">
+                    We already have your details and are reviewing them—no need to resubmit.
+                  </p>
+                )}
+                {status === "error" && errorMessage && (
+                  <p className="mt-2 text-sm font-medium text-red-600" role="alert" aria-live="polite">
+                    {errorMessage}
+                  </p>
+                )}
+                {status === "error" && debugInfo && (
+                  <p className="mt-1 font-mono text-xs text-charcoal/80" role="status">
+                    {debugInfo}
+                  </p>
+                )}
               </div>
             </motion.form>
           </div>

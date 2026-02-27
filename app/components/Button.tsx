@@ -13,6 +13,7 @@ type ButtonProps = {
   className?: string;
   href?: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 };
 
@@ -24,6 +25,7 @@ export function Button({
   className = "",
   href,
   type = "button",
+  disabled = false,
   onClick,
 }: ButtonProps) {
   const base =
@@ -57,6 +59,7 @@ export function Button({
         href={href}
         className={classes}
         onClick={onClick}
+        aria-disabled={disabled}
       >
         {children}
       </a>
@@ -68,6 +71,7 @@ export function Button({
       type={type}
       className={classes}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
