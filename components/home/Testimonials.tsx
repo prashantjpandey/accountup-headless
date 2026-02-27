@@ -73,7 +73,7 @@ export function Testimonials() {
                 <div className="relative mt-8">
                   <Link
                     href={study.href}
-                    className="inline-flex h-12 items-center justify-center rounded-full bg-neutral-900 px-6 text-base font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-neutral-800 hover:shadow-md active:translate-y-0 active:shadow-sm"
+                    className="inline-flex h-12 items-center justify-center rounded-full bg-neutral-900 px-6 text-base font-medium text-white shadow-sm transition-[transform,background-color,box-shadow] duration-200 ease-out hover:-translate-y-px hover:bg-neutral-800 hover:shadow-sm active:translate-y-0 active:shadow-sm"
                   >
                     Read case study
                   </Link>

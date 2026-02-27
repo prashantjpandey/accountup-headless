@@ -67,7 +67,7 @@ export function TrustedBy() {
     resizeObserver.observe(marquee);
 
     if (!reduceMotion) {
-      const speed = 0.04;
+      const speed = 0.024;
       const tick = (time: number) => {
         if (!lastTimeRef.current) lastTimeRef.current = time;
 
@@ -187,7 +187,7 @@ export function TrustedBy() {
                         width={360}
                         height={112}
                         draggable={false}
-                        className="h-[4.5rem] w-auto grayscale opacity-70 transition hover:opacity-100 hover:grayscale-0 sm:h-20 md:h-[5.5rem]"
+                        className="h-[4.5rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-20 md:h-[5.5rem]"
                       />
                     </a>
                   ) : (
@@ -197,7 +197,7 @@ export function TrustedBy() {
                       width={360}
                       height={112}
                       draggable={false}
-                      className="h-[4.5rem] w-auto grayscale opacity-70 transition hover:opacity-100 hover:grayscale-0 sm:h-20 md:h-[5.5rem]"
+                      className="h-[4.5rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-20 md:h-[5.5rem]"
                     />
                   )}
                 </div>

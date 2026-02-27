@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -14,7 +14,8 @@ export function Hero() {
       className="relative overflow-hidden hero-gradient px-6 pt-28 pb-20 md:pt-32 md:pb-28"
       variants={staggerContainer}
       initial={reduceMotion ? false : "hidden"}
-      animate={reduceMotion ? undefined : "visible"}
+      whileInView={reduceMotion ? undefined : "visible"}
+      viewport={{ once: true, amount: 0.35 }}
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] glow-blob-purple-strong" />
@@ -32,7 +33,7 @@ export function Hero() {
           <motion.h1
             className="text-4xl font-medium tracking-tight text-ink md:text-5xl lg:text-6xl leading-[1.1] font-display"
             variants={fadeUp}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.02 }}
           >
             Your Plug-and-Play{" "}
             <span className="text-primary">Finance Engine</span>
@@ -40,7 +41,7 @@ export function Hero() {
           <motion.p
             className="mt-6 text-lg text-charcoal leading-relaxed max-w-lg"
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             Bookkeeping, payroll, compliance, and investor-ready reporting — built
             as a{" "}
@@ -50,7 +51,7 @@ export function Hero() {
           <motion.div
             className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4"
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.18 }}
           >
             <Button asChild variant="primary" size="lg">
               <Link href="/#contact">Get a Demo</Link>
@@ -66,7 +67,7 @@ export function Hero() {
         <motion.div
           className="relative flex justify-center items-center md:col-span-6"
           variants={softScaleIn}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.55, delay: 0.14 }}
         >
           <div className="absolute inset-0 w-full max-w-none mx-auto h-[500px] md:h-[620px] glow-blob-purple opacity-40" />
           <motion.div

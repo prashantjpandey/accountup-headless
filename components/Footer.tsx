@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <Link
               href="/"
-              className="text-lg font-semibold tracking-tight text-ink hover:text-purple transition-colors lowercase block font-display"
+              className="text-lg font-semibold tracking-tight text-ink hover:text-purple transition-colors duration-200 lowercase block font-display"
             >
               accountup
             </Link>
@@ -27,7 +27,7 @@ export function Footer() {
                   <li key={label}>
                     <Link
                       href={href}
-                      className="text-sm text-charcoal hover:text-purple transition-colors"
+                      className="text-sm text-charcoal hover:text-purple transition-colors duration-200"
                     >
                       {label}
                     </Link>
@@ -38,7 +38,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-16 border-t border-lavender-1/30 pt-8 text-sm text-charcoal">
-          © {new Date().getFullYear()} Accountup. All rights reserved.
+          &copy; {new Date().getFullYear()} Accountup. All rights reserved.
         </div>
       </div>
     </footer>

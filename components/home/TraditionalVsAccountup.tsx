@@ -1,12 +1,16 @@
- "use client";
+"use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { DashboardVideo } from "@/components/ui/DashboardVideo";
 import { videos } from "@/lib/assets";
 import { TRADITIONAL_ITEMS, ACCOUNTUP_ITEMS } from "@/lib/constants";
-import Image from "next/image";
-import { fadeUp, useReducedMotionSafe } from "@/lib/animations";
+import {
+  fadeUp,
+  subtleListStagger,
+  useReducedMotionSafe,
+} from "@/lib/animations";
 
 export function TraditionalVsAccountup() {
   const reduceMotion = useReducedMotionSafe();
@@ -21,7 +25,10 @@ export function TraditionalVsAccountup() {
       viewport={{ once: true, amount: 0.2 }}
     >
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display">
+        <motion.h2
+          className="text-4xl md:text-5xl font-semibold tracking-tight text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display"
+          variants={fadeUp}
+        >
           Traditional Firms vs{" "}
           <Image
             src="/assets/logos/AccountUp_Logo(1).png"
@@ -30,14 +37,14 @@ export function TraditionalVsAccountup() {
             height={40}
             className="h-10 w-auto inline-block"
           />
-        </h2>
+        </motion.h2>
         <div className="grid md:grid-cols-2 items-stretch gap-5 md:gap-6 mt-10 md:mt-12">
           <motion.div
             className="h-full"
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.18 }}
+            transition={{ duration: 0.5, delay: 0.16 }}
           >
-            <Card variant="lavender" className="h-full p-6 md:p-7">
+            <Card variant="lavender" interactive={false} className="h-full p-6 md:p-7">
               <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Traditional Accounting
               </h3>
@@ -49,22 +56,30 @@ export function TraditionalVsAccountup() {
                 ariaHidden
                 className="mb-4 aspect-[16/10]"
               />
-              <ul className="space-y-2.5">
+              <motion.ul className="space-y-2.5" variants={subtleListStagger}>
                 {TRADITIONAL_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
-                    <span className="text-charcoal/60 mt-0.5">×</span>
-                    {item}
-                  </li>
+                  <motion.li
+                    key={item}
+                    className="flex items-start gap-3 text-base leading-relaxed text-ink/80"
+                    variants={fadeUp}
+                  >
+                    <span className="text-charcoal/60 mt-0.5">x</span>
+                    <span>{item}</span>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </Card>
           </motion.div>
           <motion.div
             className="h-full"
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
           >
-            <Card variant="lavender" className="h-full p-6 md:p-7">
+            <Card
+              variant="lavender"
+              interactive={false}
+              className={`h-full p-6 md:p-7 transition-[transform,box-shadow] duration-200 ease-out ${reduceMotion ? "" : "hover:-translate-y-0.5 hover:shadow-md"}`}
+            >
               <div className="h-0.5 w-16 rounded-full bg-purple mb-3" />
               <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Accountup System
@@ -77,14 +92,18 @@ export function TraditionalVsAccountup() {
                 ariaHidden
                 className="mb-4 aspect-[16/10]"
               />
-              <ul className="space-y-2.5">
+              <motion.ul className="space-y-2.5" variants={subtleListStagger}>
                 {ACCOUNTUP_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
-                    <span className="text-purple mt-0.5">✓</span>
-                    {item}
-                  </li>
+                  <motion.li
+                    key={item}
+                    className="flex items-start gap-3 text-base leading-relaxed text-ink/80"
+                    variants={fadeUp}
+                  >
+                    <span className="text-purple mt-0.5">+</span>
+                    <span>{item}</span>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </Card>
           </motion.div>
         </div>

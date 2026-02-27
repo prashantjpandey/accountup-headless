@@ -1,18 +1,31 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { fadeUp, staggerContainer, useReducedMotionSafe } from "@/lib/animations";
 
 export function ContactSection() {
   const reduceMotion = useReducedMotionSafe();
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!showSuccess) return undefined;
+    const timeout = window.setTimeout(() => {
+      setShowSuccess(false);
+    }, 2400);
+
+    return () => window.clearTimeout(timeout);
+  }, [showSuccess]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
     console.log("Contact form (v1):", Object.fromEntries(data));
+    form.reset();
+    setShowSuccess(true);
   }
 
   return (
@@ -52,7 +65,7 @@ export function ContactSection() {
                       name="name"
                       type="text"
                       required
-                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-colors"
+                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-[border-color,box-shadow,background-color] duration-200"
                       placeholder="Your name"
                     />
                   </div>
@@ -65,7 +78,7 @@ export function ContactSection() {
                       name="email"
                       type="email"
                       required
-                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-colors"
+                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-[border-color,box-shadow,background-color] duration-200"
                       placeholder="you@company.com"
                     />
                   </div>
@@ -79,7 +92,7 @@ export function ContactSection() {
                       id="contact-company"
                       name="company"
                       type="text"
-                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-colors"
+                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-[border-color,box-shadow,background-color] duration-200"
                       placeholder="Company name"
                     />
                   </div>
@@ -91,7 +104,7 @@ export function ContactSection() {
                       id="contact-phone"
                       name="phone"
                       type="tel"
-                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-colors"
+                      className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-[border-color,box-shadow,background-color] duration-200"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
@@ -104,11 +117,27 @@ export function ContactSection() {
                     id="contact-message"
                     name="message"
                     rows={4}
-                    className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-colors resize-none"
+                    className="w-full rounded-lg border border-lavender-2/60 bg-white px-4 py-3 text-ink placeholder:text-charcoal/50 focus:border-purple focus:ring-2 focus:ring-purple/20 focus:outline-none transition-[border-color,box-shadow,background-color] duration-200 resize-none"
                     placeholder="Tell us about your startup..."
                   />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex items-center justify-end gap-3">
+                  <AnimatePresence initial={false}>
+                    {showSuccess ? (
+                      <motion.p
+                        key="contact-success"
+                        className="text-sm font-medium text-purple"
+                        role="status"
+                        aria-live="polite"
+                        initial={reduceMotion ? undefined : { opacity: 0, y: 4 }}
+                        animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                        exit={reduceMotion ? undefined : { opacity: 0, y: 2 }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        Thanks, we will be in touch shortly.
+                      </motion.p>
+                    ) : null}
+                  </AnimatePresence>
                   <Button type="submit" variant="purple" size="lg">
                     Submit
                   </Button>
