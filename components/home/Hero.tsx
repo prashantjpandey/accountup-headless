@@ -16,7 +16,7 @@ export function Hero() {
 
   return (
     <motion.section
-      className="relative overflow-hidden hero-gradient page-shell pt-28 pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28"
+      className="relative overflow-hidden hero-gradient page-shell pt-28 pb-14 md:pt-32 md:pb-16 lg:pt-36 lg:pb-20"
       variants={staggerContainer}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
@@ -49,14 +49,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.18 }}
           >
             <Button asChild variant="primary" size="lg">
-              <Link href="/#contact">Get a Demo</Link>
+              <Link href="/#contact">Talk to an Expert</Link>
             </Button>
-            <Link
-              href="/#contact"
-              className="text-sm font-semibold text-charcoal transition-colors hover:text-purple"
-            >
-              Talk to an Expert
-            </Link>
           </motion.div>
         </div>
         <motion.div

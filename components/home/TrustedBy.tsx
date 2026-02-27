@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import { fadeUp, useReducedMotionSafe } from "@/lib/animations";
 
 export function TrustedBy() {
   const reduceMotion = useReducedMotionSafe();
-  const logos = [...clientLogos, ...clientLogos];
+  const logos = [...clientLogos, ...clientLogos, ...clientLogos];
   const marqueeRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -20,7 +20,6 @@ export function TrustedBy() {
   const currentXRef = useRef(0);
   const singleWidthRef = useRef(0);
   const hasInitRef = useRef(false);
-  const startOffsetRef = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
 
   const wrapValue = (value: number, min: number, max: number) => {
@@ -39,20 +38,17 @@ export function TrustedBy() {
     const measure = () => {
       const fullWidth = track.scrollWidth;
       if (fullWidth <= 0) return;
-      singleWidthRef.current = fullWidth / 2;
-      const startOffset = Math.min(
-        0,
-        -singleWidthRef.current + marquee.clientWidth
-      );
-      startOffsetRef.current = startOffset;
+      singleWidthRef.current = fullWidth / 3;
+      const rangeMin = -singleWidthRef.current;
+      const rangeMax = 0;
       if (!hasInitRef.current) {
-        currentXRef.current = startOffset;
+        currentXRef.current = 0;
         hasInitRef.current = true;
       } else {
         currentXRef.current = wrapValue(
           currentXRef.current,
-          startOffset - singleWidthRef.current,
-          startOffset
+          rangeMin,
+          rangeMax
         );
       }
       track.style.transform = `translate3d(${currentXRef.current}px, 0, 0)`;
@@ -75,14 +71,15 @@ export function TrustedBy() {
         lastTimeRef.current = time;
 
         if (!isDraggingRef.current) {
-          const startOffset = startOffsetRef.current;
           const singleWidth = singleWidthRef.current || 1;
+          const rangeMin = -singleWidth;
+          const rangeMax = 0;
 
           currentXRef.current -= delta * speed;
           currentXRef.current = wrapValue(
             currentXRef.current,
-            startOffset - singleWidth,
-            startOffset
+            rangeMin,
+            rangeMax
           );
 
           track.style.transform = `translate3d(${currentXRef.current}px, 0, 0)`;
@@ -110,9 +107,8 @@ export function TrustedBy() {
     dragStartRef.current = event.clientX;
 
     const singleWidth = singleWidthRef.current || 1;
-    const startOffset = startOffsetRef.current;
-    const rangeMin = startOffset - singleWidth;
-    const rangeMax = startOffset;
+    const rangeMin = -singleWidth;
+    const rangeMax = 0;
 
     dragOriginRef.current = wrapValue(
       currentXRef.current,
@@ -127,9 +123,8 @@ export function TrustedBy() {
     if (!isDraggingRef.current || !trackRef.current) return;
     const delta = event.clientX - dragStartRef.current;
     const singleWidth = singleWidthRef.current || 1;
-    const startOffset = startOffsetRef.current;
-    const rangeMin = startOffset - singleWidth;
-    const rangeMax = startOffset;
+    const rangeMin = -singleWidth;
+    const rangeMax = 0;
 
     let next = dragOriginRef.current + delta;
     next = wrapValue(next, rangeMin, rangeMax);
@@ -147,14 +142,14 @@ export function TrustedBy() {
 
   return (
     <motion.section
-      className="hero-bleed pt-20 pb-16 md:pt-24 md:pb-20 px-6"
+      className="hero-bleed page-shell pt-10 pb-14 md:pt-12 md:pb-16 lg:pt-14 lg:pb-20"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="mx-auto max-w-6xl">
-        <p className="mb-12 text-center text-[0.95rem] md:text-base font-semibold tracking-[0.02em] text-ink/80">
+      <div className="page-container">
+        <p className="mb-10 text-center text-[0.95rem] font-semibold tracking-[0.02em] text-ink/80 md:mb-12 md:text-base">
           Trusted by Startup Founders
         </p>
 
@@ -187,7 +182,7 @@ export function TrustedBy() {
                         width={360}
                         height={112}
                         draggable={false}
-                        className="h-[4.5rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-20 md:h-[5.5rem]"
+                        className="h-[4rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] md:h-[5.25rem]"
                       />
                     </a>
                   ) : (
@@ -197,7 +192,7 @@ export function TrustedBy() {
                       width={360}
                       height={112}
                       draggable={false}
-                      className="h-[4.5rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-20 md:h-[5.5rem]"
+                      className="h-[4rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] md:h-[5.25rem]"
                     />
                   )}
                 </div>
@@ -236,14 +231,14 @@ export function TrustedBy() {
         .logo-track {
           display: flex;
           align-items: center;
-          gap: 3.25rem;
+          gap: 3rem;
           white-space: nowrap;
           will-change: transform;
         }
 
         @media (max-width: 768px) {
           .logo-track {
-            gap: 2.25rem;
+            gap: 2rem;
           }
         }
       `}</style>
