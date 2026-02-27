@@ -88,8 +88,20 @@ const FIXED_MODULES: Record<Exclude<ModuleKey, "bookkeeping">, FixedModuleConfig
 const EXPENSES_MAX = 300_000;
 const SLIDER_MAX_STEPS = Math.floor(EXPENSES_MAX / BOOKKEEPING_PRICING_CONFIG.expenseStep);
 
-export function PricingExperience() {
-  const [activeModule, setActiveModule] = useState<ModuleKey>("bookkeeping");
+type PricingExperienceProps = {
+  initialModule?: ModuleKey;
+};
+
+export function PricingExperience({ initialModule = "bookkeeping" }: PricingExperienceProps) {
+  const [activeModule, setActiveModule] = useState<ModuleKey>(initialModule);
+
+  function handleModuleChange(nextModule: ModuleKey) {
+    setActiveModule(nextModule);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("module", nextModule);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}`);
+  }
 
   return (
     <div className="bg-background">
@@ -144,7 +156,7 @@ export function PricingExperience() {
                         ? "border-purple/25 bg-purple text-white"
                         : "border-black/8 bg-white text-ink hover:bg-neutral-50"
                     }`}
-                    onClick={() => setActiveModule(tab.key)}
+                    onClick={() => handleModuleChange(tab.key)}
                   >
                     <p className="text-sm font-semibold">{tab.label}</p>
                     <p

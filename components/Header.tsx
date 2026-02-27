@@ -26,15 +26,15 @@ export function Header() {
 
   return (
     <motion.header
-      className={`${isHome ? "fixed" : "sticky"} top-0 z-50 w-full px-4 transition-[padding-top] duration-300 md:px-6 ${isScrolled ? "pt-3 md:pt-4" : "pt-4 md:pt-5"}`}
+      className={`${isHome ? "fixed" : "sticky"} top-0 z-50 w-full transition-[padding-top] duration-300 ${isScrolled ? "pt-3 md:pt-4" : "pt-4 md:pt-5"}`}
       initial={reduceMotion ? false : { opacity: 0 }}
       animate={reduceMotion ? undefined : { opacity: 1 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="w-full relative">
-        <div className="mx-auto max-w-5xl">
+      <div className="page-shell relative w-full">
+        <div className="page-container">
           <motion.nav
-            className="flex h-14 items-center justify-between rounded-full border border-white/80 bg-white/80 px-5 backdrop-blur-md shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] md:h-[3.25rem] md:px-6"
+            className="flex h-14 items-center justify-between rounded-full border border-white/85 bg-white/82 px-4 backdrop-blur-md shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] sm:px-5 md:h-[3.25rem] md:px-6"
             aria-label="Main"
             animate={
               reduceMotion
@@ -67,7 +67,7 @@ export function Header() {
                 priority
               />
             </Link>
-            <div className="absolute left-1/2 hidden -translate-x-1/2 md:flex md:items-center md:gap-7">
+            <div className="absolute left-1/2 hidden -translate-x-1/2 md:flex md:items-center md:gap-6 lg:gap-7">
               {NAV_LINKS.map(({ href, label }) => {
                 const [pathOnly] = href.split("#");
                 const isHashLink = href.includes("#");
@@ -76,7 +76,7 @@ export function Header() {
                   : pathname === href || pathname.startsWith(`${href}/`);
                 return (
                   <Link
-                    key={href}
+                    key={`${href}-${label}`}
                     href={href}
                     className={`relative text-sm font-semibold transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:bg-current after:origin-left after:scale-x-0 after:transition-transform after:duration-200 after:ease-out ${
                       isActive

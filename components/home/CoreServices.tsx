@@ -127,6 +127,8 @@ export function CoreServices() {
                           : videos.reportingInsights
                       }
                       ariaHidden
+                      loopStartSeconds={4}
+                      loopEndSeconds={8}
                       className="w-full [&_video]:block [&_video]:h-auto [&_video]:w-full [&_video]:object-contain"
                     />
                   </motion.div>
