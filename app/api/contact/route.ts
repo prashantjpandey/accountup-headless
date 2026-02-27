@@ -136,12 +136,12 @@ export async function POST(request: NextRequest) {
 
     const apiKey = process.env.WIX_API_KEY;
     const siteId = process.env.WIX_SITE_ID;
-    const collectionId = process.env.WIX_COLLECTION_ID;
+    const rawCollectionId = process.env.WIX_COLLECTION_ID;
 
     const missing: string[] = [];
     if (!apiKey) missing.push("WIX_API_KEY");
     if (!siteId) missing.push("WIX_SITE_ID");
-    if (!collectionId) missing.push("WIX_COLLECTION_ID");
+    if (!rawCollectionId) missing.push("WIX_COLLECTION_ID");
     if (missing.length > 0) {
       console.error("[contact] Missing env:", missing.join(", "));
       const isDev = process.env.NODE_ENV === "development";
@@ -155,6 +155,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const collectionId = rawCollectionId;
     const wixClient = getWixClient();
     const leadItem = {
       // Map to existing Wix fields:
