@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { Card } from "@/components/ui/Card";
 import { DashboardVideo } from "@/components/ui/DashboardVideo";
 import { CORE_SERVICES } from "@/lib/constants";
 import { videos } from "@/lib/assets";
@@ -32,7 +33,7 @@ export function CoreServices() {
 
   return (
     <motion.section
-      className="relative overflow-hidden py-24 md:py-32 px-6 bg-background"
+      className="surface-default page-shell relative overflow-hidden section-space-lg"
       id="services"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
@@ -41,90 +42,97 @@ export function CoreServices() {
     >
       <div className="absolute top-0 right-0 w-[420px] h-[320px] glow-blob-purple opacity-25 pointer-events-none" />
       <div className="absolute -bottom-8 -left-14 w-[360px] h-[260px] glow-blob-orange opacity-20 pointer-events-none" />
-      <div className="mx-auto max-w-7xl relative">
-        <motion.div className="mx-auto max-w-3xl text-center mb-16 md:mb-20" variants={staggerContainer}>
+      <div className="page-container relative">
+        <motion.div className="mx-auto mb-14 max-w-3xl text-center md:mb-16" variants={staggerContainer}>
           <motion.p
-            className="inline-flex items-center rounded-full border border-purple/25 bg-white/80 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-purple"
+            className="eyebrow-chip"
             variants={fadeUp}
           >
             What We Do
           </motion.p>
           <motion.h2
-            className="mt-5 text-4xl md:text-5xl font-semibold tracking-tight text-ink font-display"
+            className="mt-5 font-display text-4xl font-semibold tracking-tight text-ink md:text-5xl"
             variants={fadeUp}
           >
             Finance ops that scale with your startup
           </motion.h2>
           <motion.p
-            className="mt-5 text-base md:text-lg text-charcoal leading-relaxed"
+            className="mt-5 text-base leading-relaxed text-charcoal md:text-lg"
             variants={fadeUp}
           >
             Three connected modules covering daily operations, compliance, and
             investor-ready reporting.
           </motion.p>
         </motion.div>
-        <div className="space-y-16 md:space-y-20 max-w-6xl mx-auto">
+        <div className="mx-auto max-w-[68rem] space-y-8 md:space-y-10">
           {CORE_SERVICES.map((service) => (
-            <motion.div
+            <Card
               key={service.id}
-              className="relative grid md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center rounded-[28px] border border-white/55 bg-white/45 px-6 py-7 md:px-9 md:py-9 backdrop-blur-xl shadow-[0_22px_52px_-36px_rgba(17,17,19,0.45)] overflow-hidden"
-              variants={moduleStagger}
-              initial={reduceMotion ? false : "hidden"}
-              whileInView={reduceMotion ? undefined : "visible"}
-              viewport={{ once: true, amount: 0.3 }}
+              variant="lavender"
+              interactive={false}
+              className="relative overflow-hidden px-6 py-7 md:px-8 md:py-8 lg:px-9 lg:py-9"
             >
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${panelGradients[service.id] ?? "from-purple/12 via-primary/10 to-transparent"} pointer-events-none`}
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${panelGradients[service.id] ?? "from-purple/12 via-primary/10 to-transparent"}`}
               />
-              <motion.div className="relative md:col-span-4" variants={fadeUp}>
-                <h3 className="text-3xl font-semibold tracking-tight text-ink font-display">
-                  {service.title}
-                </h3>
-                <p className="text-sm md:text-base text-purple font-semibold uppercase tracking-[0.08em] mt-1">
-                  {service.subtitle}
-                </p>
-                <p className="mt-5 text-base md:text-lg text-charcoal leading-relaxed">
-                  {service.description}
-                </p>
-                <motion.ul
-                  className="mt-7 space-y-3"
-                  variants={subtleListStagger}
-                >
-                  {service.bullets.map((bullet) => (
-                    <motion.li
-                      key={bullet}
-                      className="text-base text-ink/80 flex items-start gap-3 leading-relaxed"
-                      variants={fadeUp}
-                    >
-                      <span className="mt-2 block h-1.5 w-1.5 rounded-full bg-purple shrink-0" />
-                      {bullet}
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </motion.div>
               <motion.div
-                className="relative md:col-span-8 md:border-l md:border-white/45 md:pl-8 lg:pl-10 min-w-0"
-                variants={softScaleIn}
-                transition={{ duration: 0.55, delay: 0.08 }}
+                className="relative z-10 grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
+                variants={moduleStagger}
+                initial={reduceMotion ? false : "hidden"}
+                whileInView={reduceMotion ? undefined : "visible"}
+                viewport={{ once: true, amount: 0.3 }}
               >
+                <motion.div className="relative lg:col-span-4" variants={fadeUp}>
+                  <h3 className="font-display text-3xl font-semibold tracking-tight text-ink">
+                    {service.title}
+                  </h3>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-purple md:text-base">
+                    {service.subtitle}
+                  </p>
+                  <p className="mt-5 text-base leading-relaxed text-charcoal md:text-lg">
+                    {service.description}
+                  </p>
+                  <motion.ul
+                    className="mt-7 space-y-3"
+                    variants={subtleListStagger}
+                  >
+                    {service.bullets.map((bullet) => (
+                      <motion.li
+                        key={bullet}
+                        className="flex items-start gap-3 text-[0.95rem] leading-relaxed text-ink/80 md:text-base"
+                        variants={fadeUp}
+                      >
+                        <span className="mt-2 block h-1.5 w-1.5 shrink-0 rounded-full bg-purple" />
+                        {bullet}
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                </motion.div>
                 <motion.div
-                  whileHover={reduceMotion ? undefined : { y: -2 }}
-                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative min-w-0 lg:col-span-8 lg:border-l lg:border-white/45"
+                  variants={softScaleIn}
+                  transition={{ duration: 0.55, delay: 0.08 }}
                 >
-                  <DashboardVideo
-                    src={
-                      service.id === "daily-ops"
-                        ? videos.bookkeepingPayroll
-                        : service.id === "compliance"
-                        ? videos.complianceFilings
-                        : videos.reportingInsights
-                    }
-                    ariaHidden
-                    className="w-full aspect-[16/10] md:aspect-video"
-                  />
+                  <motion.div
+                    whileHover={reduceMotion ? undefined : { y: -2 }}
+                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden rounded-2xl"
+                  >
+                    <DashboardVideo
+                      src={
+                        service.id === "daily-ops"
+                          ? videos.bookkeepingPayroll
+                          : service.id === "compliance"
+                          ? videos.complianceFilings
+                          : videos.reportingInsights
+                      }
+                      ariaHidden
+                      className="w-full [&_video]:block [&_video]:h-auto [&_video]:w-full [&_video]:object-contain"
+                    />
+                  </motion.div>
                 </motion.div>
               </motion.div>
-            </motion.div>
+            </Card>
           ))}
         </div>
       </div>
