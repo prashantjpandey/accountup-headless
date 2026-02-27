@@ -13,14 +13,14 @@ export function TraditionalVsAccountup() {
 
   return (
     <motion.section
-      className="py-20 md:py-28 px-6 compare-gradient"
+      className="py-14 md:py-18 px-6 compare-gradient"
       id="compare"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-5xl">
         <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-ink text-center mb-4 flex flex-wrap items-center justify-center gap-2 font-display">
           Traditional Firms vs{" "}
           <Image
@@ -31,24 +31,25 @@ export function TraditionalVsAccountup() {
             className="h-10 w-auto inline-block"
           />
         </h2>
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mt-14">
+        <div className="grid md:grid-cols-2 items-stretch gap-5 md:gap-6 mt-10 md:mt-12">
           <motion.div
+            className="h-full"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.18 }}
           >
-            <Card variant="lavender" className="p-8 md:p-10">
+            <Card variant="lavender" className="h-full p-6 md:p-7">
               <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Traditional Accounting
               </h3>
-              <p className="text-base text-charcoal/90 leading-relaxed mb-6">
+              <p className="text-base text-charcoal/90 leading-relaxed mb-4">
                 Manual processes, delayed insights, reactive support.
               </p>
               <DashboardVideo
                 src={videos.traditionalFirms}
                 ariaHidden
-                className="mb-6 aspect-[4/3]"
+                className="mb-4 aspect-[16/10]"
               />
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 {TRADITIONAL_ITEMS.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
                     <span className="text-charcoal/60 mt-0.5">×</span>
@@ -59,23 +60,24 @@ export function TraditionalVsAccountup() {
             </Card>
           </motion.div>
           <motion.div
+            className="h-full"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <Card variant="lavender" className="p-8 md:p-10">
-              <div className="h-0.5 w-16 rounded-full bg-purple mb-4" />
+            <Card variant="lavender" className="h-full p-6 md:p-7">
+              <div className="h-0.5 w-16 rounded-full bg-purple mb-3" />
               <h3 className="text-2xl font-semibold tracking-tight text-ink mb-2 font-display">
                 Accountup System
               </h3>
-              <p className="text-base text-charcoal/90 leading-relaxed mb-6">
+              <p className="text-base text-charcoal/90 leading-relaxed mb-4">
                 Real-time, systemized, investor-ready.
               </p>
               <DashboardVideo
                 src={videos.heroStreamline}
                 ariaHidden
-                className="mb-6 aspect-[4/3]"
+                className="mb-4 aspect-[16/10]"
               />
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 {ACCOUNTUP_ITEMS.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-base leading-relaxed text-ink/80">
                     <span className="text-purple mt-0.5">✓</span>

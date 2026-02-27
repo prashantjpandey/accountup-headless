@@ -8,10 +8,10 @@ import { fadeUp, softScaleIn, staggerContainer, subtleListStagger, useReducedMot
 
 export function CoreServices() {
   const reduceMotion = useReducedMotionSafe();
-  const accentStyles: Record<string, string> = {
-    "daily-ops": "from-primary/90 to-primary/20",
-    compliance: "from-purple/90 to-purple/20",
-    reporting: "from-primary/70 via-purple/70 to-purple/20",
+  const panelGradients: Record<string, string> = {
+    "daily-ops": "from-primary/15 via-warm-peach/10 to-transparent",
+    compliance: "from-purple/15 via-lavender-1/10 to-transparent",
+    reporting: "from-primary/12 via-purple/12 to-transparent",
   };
 
   return (
@@ -38,15 +38,17 @@ export function CoreServices() {
             investor-ready reporting.
           </p>
         </motion.div>
-        <div className="space-y-16 md:space-y-20">
+        <div className="space-y-16 md:space-y-20 max-w-6xl mx-auto">
           {CORE_SERVICES.map((service) => (
             <motion.div
               key={service.id}
-              className="relative grid md:grid-cols-2 gap-8 md:gap-12 items-center rounded-3xl border border-lavender-2/50 bg-white/70 px-8 py-10 md:px-12 md:py-12 backdrop-blur-md shadow-[0_18px_50px_-28px_rgba(17,17,19,0.35)]"
+              className="relative grid md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center rounded-[28px] border border-white/55 bg-white/45 px-6 py-7 md:px-9 md:py-9 backdrop-blur-xl shadow-[0_22px_52px_-36px_rgba(17,17,19,0.45)] overflow-hidden"
               variants={staggerContainer}
             >
-              <div className={`absolute left-8 right-8 top-0 h-1 rounded-full bg-gradient-to-r ${accentStyles[service.id] ?? "from-purple/80 to-primary/20"}`} />
-              <motion.div variants={fadeUp}>
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${panelGradients[service.id] ?? "from-purple/12 via-primary/10 to-transparent"} pointer-events-none`}
+              />
+              <motion.div className="relative md:col-span-4" variants={fadeUp}>
                 <h3 className="text-3xl font-semibold tracking-tight text-ink font-display">
                   {service.title}
                 </h3>
@@ -73,11 +75,10 @@ export function CoreServices() {
                 </motion.ul>
               </motion.div>
               <motion.div
-                className="relative"
+                className="relative md:col-span-8 md:border-l md:border-white/45 md:pl-8 lg:pl-10 min-w-0"
                 variants={softScaleIn}
                 transition={{ duration: 0.6 }}
               >
-                <div className="absolute inset-0 w-full h-full glow-blob-purple opacity-20 pointer-events-none" />
                 <DashboardVideo
                   src={
                     service.id === "daily-ops"
@@ -87,7 +88,7 @@ export function CoreServices() {
                       : videos.reportingInsights
                   }
                   ariaHidden
-                  className="w-full aspect-video rounded-2xl border border-white/70 shadow-[0_16px_30px_-20px_rgba(17,17,19,0.4)]"
+                  className="w-full aspect-[16/10] md:aspect-video"
                 />
               </motion.div>
             </motion.div>

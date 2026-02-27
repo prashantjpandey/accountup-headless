@@ -83,6 +83,41 @@ export const TESTIMONIALS = [
   },
 ] as const;
 
+export const CASE_STUDIES = [
+  {
+    company: "Plastic Collective UK Limited",
+    logoSrc: "/assets/logos/PlasticCollective_Logo.png",
+    logoAlt: "Plastic Collective logo",
+    summary:
+      "Plastic Collective expanded its recycling programs but faced bottlenecks with system migration, reporting, and compliance. With a rebuilt finance function, they now run on live reporting, forecast cash with confidence, and deliver timely submissions.",
+    href: "/#contact",
+  },
+  {
+    company: "Conjecture Ltd",
+    logoSrc: "/assets/logos/Conjecture_Logo.png",
+    logoAlt: "Conjecture logo",
+    summary:
+      "As Conjecture scaled AI research, bookkeeping, spend control, and cross-border reporting grew complex. They now close books monthly, track burn and runway in real time, and stay compliant across UK and US operations.",
+    href: "/#contact",
+  },
+  {
+    company: "Duel Holdings Limited",
+    logoSrc: "/assets/logos/Duel_Logo.png",
+    logoAlt: "Duel logo",
+    summary:
+      "Rapid growth left Duel with reconciliation backlogs, outdated books, and heavy transaction volume across two markets. They now operate with clean reconciliations, current books, and smooth invoicing, payments, and supplier management.",
+    href: "/#contact",
+  },
+  {
+    company: "Surrey Event Agency Limited",
+    logoSrc: "/assets/logos/SurreyEventAgency_Logo.png",
+    logoAlt: "Surrey Event Agency logo",
+    summary:
+      "At launch, Surrey Event Agency juggled incorporation, payroll, VAT, and pensions while trying to win clients. With finance set up from day one, the founder now runs a compliant business with clear books and decision-ready reports.",
+    href: "/#contact",
+  },
+] as const;
+
 export const FAQ_ITEMS = [
   {
     question: "What's included in each plan?",

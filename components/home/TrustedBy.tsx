@@ -147,14 +147,14 @@ export function TrustedBy() {
 
   return (
     <motion.section
-      className="hero-bleed py-16 px-6"
+      className="hero-bleed pt-20 pb-16 md:pt-24 md:pb-20 px-6"
       variants={fadeUp}
       initial={reduceMotion ? false : "hidden"}
       whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount: 0.2 }}
     >
       <div className="mx-auto max-w-6xl">
-        <p className="mb-10 text-center text-sm font-semibold text-charcoal">
+        <p className="mb-12 text-center text-[0.95rem] md:text-base font-semibold tracking-[0.02em] text-ink/80">
           Trusted by Startup Founders
         </p>
 

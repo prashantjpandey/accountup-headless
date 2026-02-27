@@ -3,7 +3,7 @@ import { videos } from "@/lib/assets";
 
 export function HeroVideo() {
   return (
-    <div className="relative w-full max-w-2xl">
+    <div className="relative w-full">
       <DashboardVideo
         src={videos.overview1}
         className="w-full aspect-video"
@@ -11,4 +11,3 @@ export function HeroVideo() {
     </div>
   );
 }
-

@@ -27,8 +27,8 @@ export function Hero() {
           }}
         />
       </div>
-      <div className="relative mx-auto max-w-6xl grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-        <div className="max-w-xl">
+      <div className="relative mx-auto max-w-6xl grid md:grid-cols-12 gap-10 md:gap-10 lg:gap-12 items-center">
+        <div className="max-w-xl md:col-span-6">
           <motion.h1
             className="text-4xl font-medium tracking-tight text-ink md:text-5xl lg:text-6xl leading-[1.1] font-display"
             variants={fadeUp}
@@ -64,13 +64,13 @@ export function Hero() {
           </motion.div>
         </div>
         <motion.div
-          className="relative flex justify-center items-center"
+          className="relative flex justify-center items-center md:col-span-6"
           variants={softScaleIn}
           transition={{ duration: 0.6 }}
         >
-          <div className="absolute inset-0 w-full max-w-xl mx-auto h-[420px] md:h-[480px] glow-blob-purple opacity-40" />
+          <div className="absolute inset-0 w-full max-w-none mx-auto h-[500px] md:h-[620px] glow-blob-purple opacity-40" />
           <motion.div
-            className="relative w-full max-w-xl aspect-video flex justify-center"
+            className="relative w-full max-w-none aspect-video flex justify-center"
           >
             <HeroVideo />
           </motion.div>
