@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const collectionId = rawCollectionId;
+    const collectionId: string = rawCollectionId as string;
     const wixClient = getWixClient();
     const leadItem = {
       // Map to existing Wix fields:
