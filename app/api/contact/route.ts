@@ -44,6 +44,10 @@ function markSubmitted(email: string, ip: string): void {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_LENGTH = { name: 200, email: 254, company: 200, message: 2000 };
+const REQUIRED_WIX_ENV_KEYS = ["WIX_API_KEY", "WIX_SITE_ID", "WIX_COLLECTION_ID"] as const;
+
+type RequiredWixEnvKey = (typeof REQUIRED_WIX_ENV_KEYS)[number];
+type RequiredWixEnv = Record<RequiredWixEnvKey, string>;
 
 type Body = {
   name: string;
@@ -101,17 +105,30 @@ function getClientIp(request: NextRequest): string {
   );
 }
 
-function getWixClient() {
-  const apiKey = process.env.WIX_API_KEY;
-  const siteId = process.env.WIX_SITE_ID;
-  if (!apiKey || !siteId) {
-    throw new Error("Missing WIX_API_KEY or WIX_SITE_ID");
+function getMissingWixEnv(): RequiredWixEnvKey[] {
+  return REQUIRED_WIX_ENV_KEYS.filter((key) => !process.env[key]);
+}
+
+function getRequiredWixEnv(): RequiredWixEnv {
+  const missing = getMissingWixEnv();
+  if (missing.length > 0) {
+    throw new Error(`Missing ${missing.join(", ")}`);
   }
+
+  return {
+    WIX_API_KEY: process.env.WIX_API_KEY!,
+    WIX_SITE_ID: process.env.WIX_SITE_ID!,
+    WIX_COLLECTION_ID: process.env.WIX_COLLECTION_ID!,
+  };
+}
+
+function getWixClient() {
+  const { WIX_API_KEY, WIX_SITE_ID } = getRequiredWixEnv();
   return createClient({
     modules: { items },
     auth: ApiKeyStrategy({
-      apiKey,
-      siteId,
+      apiKey: WIX_API_KEY,
+      siteId: WIX_SITE_ID,
     }),
   });
 }
@@ -134,14 +151,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const apiKey = process.env.WIX_API_KEY;
-    const siteId = process.env.WIX_SITE_ID;
-    const rawCollectionId = process.env.WIX_COLLECTION_ID;
-
-    const missing: string[] = [];
-    if (!apiKey) missing.push("WIX_API_KEY");
-    if (!siteId) missing.push("WIX_SITE_ID");
-    if (!rawCollectionId) missing.push("WIX_COLLECTION_ID");
+    const missing = getMissingWixEnv();
     if (missing.length > 0) {
       console.error("[contact] Missing env:", missing.join(", "));
       const isDev = process.env.NODE_ENV === "development";
@@ -155,7 +165,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const collectionId: string = rawCollectionId as string;
+    const { WIX_COLLECTION_ID } = getRequiredWixEnv();
     const wixClient = getWixClient();
     const leadItem = {
       // Map to existing Wix fields:
@@ -170,7 +180,7 @@ export async function POST(request: NextRequest) {
       pageSource: data.pageSource,
     };
 
-    await wixClient.items.insert(collectionId, leadItem);
+    await wixClient.items.insert(WIX_COLLECTION_ID, leadItem);
 
     markSubmitted(data.email, ip);
     return NextResponse.json({ ok: true, message: "Thanks, we will be in touch shortly." });
