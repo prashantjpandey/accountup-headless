@@ -1,25 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
-type Item = { question: string; answer: string };
+type Item = { question: string; answer: ReactNode };
 
 type AccordionProps = {
   items: readonly Item[];
 };
 
 export function Accordion({ items }: AccordionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openItems, setOpenItems] = useState<Set<number>>(() => new Set([0]));
+
+  function toggleItem(index: number) {
+    setOpenItems((current) => {
+      const next = new Set(current);
+
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+
+      return next;
+    });
+  }
 
   return (
     <div className="divide-y divide-lavender-1/50">
       {items.map((item, i) => {
-        const isOpen = openIndex === i;
+        const isOpen = openItems.has(i);
         return (
           <div key={i}>
             <button
               type="button"
-              onClick={() => setOpenIndex(isOpen ? null : i)}
+              onClick={() => toggleItem(i)}
               className="flex w-full items-center justify-between py-5 text-left text-base font-semibold text-ink hover:text-purple transition-colors focus:outline-none focus:ring-2 focus:ring-purple/40 focus:ring-offset-2 rounded"
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${i}`}
@@ -37,11 +51,12 @@ export function Accordion({ items }: AccordionProps) {
               id={`faq-answer-${i}`}
               role="region"
               aria-labelledby={`faq-question-${i}`}
-              className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-96" : "max-h-0"}`}
+              hidden={!isOpen}
+              className={isOpen ? "block" : "hidden"}
             >
-              <p className="pb-5 text-sm text-charcoal leading-relaxed">
+              <div className="pb-5 text-sm leading-relaxed text-charcoal">
                 {item.answer}
-              </p>
+              </div>
             </div>
           </div>
         );
