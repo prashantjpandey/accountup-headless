@@ -29,9 +29,17 @@ export function SectionHeader({
       {action ? (
         <Link
           href={action.href}
-          className="shrink-0 pt-1 text-sm font-semibold text-ink transition-colors duration-200 hover:text-purple"
+          className="group shrink-0 pt-1 text-sm font-semibold text-ink transition-colors duration-200 hover:text-purple"
         >
-          {action.label}
+          <span className="inline-flex items-center gap-2">
+            <span>{action.label}</span>
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-x-1"
+            >
+              &rarr;
+            </span>
+          </span>
         </Link>
       ) : null}
     </div>

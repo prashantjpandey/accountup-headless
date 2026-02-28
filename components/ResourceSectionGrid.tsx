@@ -32,7 +32,7 @@ export function ResourceSectionGrid({
           action={
             viewAllHref
               ? {
-                  label: "View all ->",
+                  label: "View all",
                   href: viewAllHref,
                 }
               : undefined

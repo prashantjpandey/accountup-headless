@@ -258,62 +258,7 @@ const caseStudyItems: ResourceItem[] = [
   },
 ];
 
-const insightItems: ResourceItem[] = [
-  {
-    slug: "when-runway-is-lying",
-    title: "When runway is lying to you",
-    description: "Why cash-on-hand alone hides the timing risk that kills good planning.",
-    href: "/resources/insights/when-runway-is-lying",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "insight",
-  },
-  {
-    slug: "why-founders-misread-burn",
-    title: "Why founders misread burn",
-    description: "The common reporting shortcuts that make burn feel lower than it really is.",
-    href: "/resources/insights/why-founders-misread-burn",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "health",
-  },
-  {
-    slug: "the-real-cost-of-bad-cap-table-hygiene",
-    title: "The real cost of bad cap table hygiene",
-    description: "Equity mess compounds quietly until transactions, diligence, or hiring expose it.",
-    href: "/resources/insights/the-real-cost-of-bad-cap-table-hygiene",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "equity",
-  },
-  {
-    slug: "what-investors-want-in-monthly-reporting",
-    title: "What investors want in monthly reporting",
-    description: "Clear finance communication is usually simpler and sharper than founders expect.",
-    href: "/resources/insights/what-investors-want-in-monthly-reporting",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "update",
-  },
-  {
-    slug: "how-to-spot-finance-stack-fragility",
-    title: "How to spot finance stack fragility",
-    description: "Weak systems usually reveal themselves through manual workarounds and lagging data.",
-    href: "/resources/insights/how-to-spot-finance-stack-fragility",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "stack",
-  },
-  {
-    slug: "grants-credits-and-what-they-actually-change",
-    title: "Grants, credits, and what they actually change",
-    description: "Incentives can help, but only when they are tied to operating decisions properly.",
-    href: "/resources/insights/grants-credits-and-what-they-actually-change",
-    category: "insight",
-    linkLabel: "Read",
-    iconKey: "grant",
-  },
-];
+const insightItems: ResourceItem[] = [];
 
 export const resourceSections: ResourceSection[] = [
   {
@@ -370,10 +315,10 @@ export const resourceSections: ResourceSection[] = [
   },
   {
     id: "insights",
-    href: "/resources/insights",
+    href: "/insights",
     title: "Insights",
     pageTitle: "Insights",
-    description: "Placeholder articles on startup finance decisions, reporting quality, and funding readiness.",
+    description: "Practical reads on reporting quality, operating discipline, and startup finance decisions.",
     pageDescription:
       "A growing insight layer for practical startup finance thinking, reporting clarity, and operating discipline.",
     items: insightItems,

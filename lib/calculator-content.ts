@@ -1,9 +1,14 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import type { WixDataItem } from "@wix/wix-data-items-common";
-import { calculatorResources, type CalculatorResource } from "@/lib/resources";
+import {
+  calculatorResources,
+  getCalculatorResourceBySlug,
+  type CalculatorResource,
+} from "@/lib/resources";
 import { richTextToPlainText } from "@/lib/rich-text";
 import { createWixServerClient, getOptionalWixReadEnv } from "@/lib/wix-server";
+import { resolveWixImageUrl } from "@/lib/wix-media";
 
 const CALCULATOR_CONTENT_COLLECTION_ID = "CalculatorContent";
 
@@ -81,38 +86,6 @@ function normalizeCalculatorCmsContent(item: WixDataItem): CalculatorCmsContent 
   };
 }
 
-function resolveWixImageUrl(value: unknown): string | null {
-  if (!value) {
-    return null;
-  }
-
-  if (typeof value === "string") {
-    if (/^https?:\/\//i.test(value)) {
-      return value;
-    }
-
-    const wixImageMatch = value.match(/^wix:image:\/\/v1\/([^/#?]+)(?:\/([^#?]+))?/i);
-
-    if (wixImageMatch) {
-      return `https://static.wixstatic.com/media/${wixImageMatch[1]}`;
-    }
-
-    return null;
-  }
-
-  if (typeof value === "object") {
-    const image = value as Record<string, unknown>;
-
-    for (const key of ["url", "fileUrl", "src"]) {
-      if (typeof image[key] === "string" && image[key]) {
-        return resolveWixImageUrl(image[key]);
-      }
-    }
-  }
-
-  return null;
-}
-
 export const getCalculatorCmsContent = cache(async (slug: string) => {
   if (!getOptionalWixReadEnv()) {
     console.warn(
@@ -152,6 +125,193 @@ export const getCalculatorCmsContent = cache(async (slug: string) => {
     return null;
   }
 });
+
+export type CalculatorRefInfo = {
+  title: string;
+  href: string;
+};
+
+export type CalculatorReferenceInfo = CalculatorRefInfo & {
+  slug: string;
+};
+
+type CalculatorRefValue = {
+  _id?: unknown;
+  slug?: unknown;
+  title?: unknown;
+  name?: unknown;
+};
+
+function buildCalculatorCtaHref(slug: string) {
+  return `/resources/${slug}`;
+}
+
+export function getCalculatorReferenceInfoFromContent(content: {
+  slug?: string;
+  title?: string;
+}): CalculatorReferenceInfo | null {
+  const slug = typeof content.slug === "string" ? content.slug.trim() : "";
+  const title = typeof content.title === "string" ? content.title.trim() : "";
+
+  if (!slug || !title) {
+    return null;
+  }
+
+  return {
+    slug,
+    title,
+    href: buildCalculatorCtaHref(slug),
+  };
+}
+
+export function getCalculatorRefInfoFromContent(content: {
+  slug?: string;
+  title?: string;
+}): CalculatorRefInfo | null {
+  const reference = getCalculatorReferenceInfoFromContent(content);
+
+  if (!reference) {
+    return null;
+  }
+
+  return {
+    title: reference.title,
+    href: reference.href,
+  };
+}
+
+export const getCalculatorReferenceById = cache(
+  async (itemId: string): Promise<CalculatorReferenceInfo | null> => {
+    if (!getOptionalWixReadEnv() || !itemId.trim()) {
+      return null;
+    }
+
+    const wixClient = createWixServerClient();
+    if (!wixClient) {
+      return null;
+    }
+
+    try {
+      const item = await wixClient.items.get(CALCULATOR_CONTENT_COLLECTION_ID, itemId.trim());
+      if (!item) {
+        return null;
+      }
+
+      const normalized = normalizeCalculatorCmsContent(item);
+      return getCalculatorReferenceInfoFromContent(normalized);
+    } catch {
+      return null;
+    }
+  },
+);
+
+/** Fetch a calculator item from CalculatorContent by its _id (for reference fields). */
+export const getCalculatorById = cache(async (itemId: string): Promise<CalculatorRefInfo | null> => {
+  const reference = await getCalculatorReferenceById(itemId);
+
+  if (!reference) {
+    return null;
+  }
+
+  return {
+    title: reference.title,
+    href: reference.href,
+  };
+});
+
+/** Resolve calculator URL: prefer slug (if in registry), else match by title in local registry. */
+export function resolveCalculatorHref(content: { slug?: string; title?: string }): string | null {
+  const slug = typeof content.slug === "string" ? content.slug.trim() : "";
+  if (slug) {
+    const resource = getCalculatorResourceBySlug(slug as CalculatorResource["slug"]);
+    if (resource) {
+      return resource.href;
+    }
+  }
+
+  const title = typeof content.title === "string" ? content.title.trim() : "";
+  if (title) {
+    const match = calculatorResources.find(
+      (r) => r.title.toLowerCase() === title.toLowerCase(),
+    );
+    if (match) {
+      return match.href;
+    }
+  }
+
+  return null;
+}
+
+export function resolveCalculatorFromRegistry(value: string): CalculatorRefInfo | null {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return null;
+  }
+
+  const bySlug = getCalculatorResourceBySlug(trimmed as CalculatorResource["slug"]);
+
+  if (bySlug) {
+    return {
+      title: bySlug.title,
+      href: bySlug.href,
+    };
+  }
+
+  const normalizedValue = trimmed.toLowerCase();
+  const byTitle = calculatorResources.find(
+    (resource) => resource.title.toLowerCase() === normalizedValue,
+  );
+
+  if (byTitle) {
+    return {
+      title: byTitle.title,
+      href: byTitle.href,
+    };
+  }
+
+  return null;
+}
+
+export function resolveCalculatorFromReferenceValue(
+  value: unknown,
+): CalculatorRefInfo | null {
+  if (!value) {
+    return null;
+  }
+
+  if (typeof value === "string") {
+    return resolveCalculatorFromRegistry(value);
+  }
+
+  if (typeof value === "object") {
+    const reference = value as CalculatorRefValue;
+    const slug = typeof reference.slug === "string" ? reference.slug.trim() : "";
+    const title =
+      typeof reference.title === "string"
+        ? reference.title.trim()
+        : typeof reference.name === "string"
+          ? reference.name.trim()
+          : "";
+
+    if (slug) {
+      const href = resolveCalculatorHref({ slug, title });
+
+      if (href) {
+        return {
+          title: title || slug,
+          href,
+        };
+      }
+    }
+
+    if (title) {
+      return resolveCalculatorFromRegistry(title);
+    }
+  }
+
+  return null;
+}
 
 export async function getCalculatorMetadata(
   resource: CalculatorResource,

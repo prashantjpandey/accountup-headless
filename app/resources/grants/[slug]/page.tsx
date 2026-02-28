@@ -57,7 +57,7 @@ export default async function GrantDetailPage({ params }: GrantDetailPageProps) 
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
             <Button asChild variant="primary" size="lg">
-              <Link href="/#contact">Talk to a Finance Expert {"->"}</Link>
+              <Link href="/#contact">Talk to a Finance Expert</Link>
             </Button>
             <Link
               href="/resources"

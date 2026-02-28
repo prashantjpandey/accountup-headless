@@ -25,6 +25,15 @@ type RichTextNode = {
   };
 };
 
+type InlineCtaPlacement = "inline-after-section" | "before-following-section";
+
+type RichTextSplitResult = {
+  beforeCta: unknown | null;
+  afterCta: unknown | null;
+  placement: InlineCtaPlacement;
+  hasArticleContent: boolean;
+};
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -180,6 +189,107 @@ function richTextToHtml(value: unknown): string {
   }
 
   return "";
+}
+
+function extractTopLevelBlock(html: string, startIndex: number, tagName: string) {
+  const blockMatcher = new RegExp(`<\\/?${tagName}\\b[^>]*>`, "gi");
+  blockMatcher.lastIndex = startIndex;
+
+  let depth = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = blockMatcher.exec(html)) !== null) {
+    const token = match[0];
+    const isClosingTag = /^<\//.test(token);
+
+    depth += isClosingTag ? -1 : 1;
+
+    if (depth === 0) {
+      return html.slice(startIndex, blockMatcher.lastIndex);
+    }
+  }
+
+  return html.slice(startIndex);
+}
+
+function getTopLevelHtmlBlocks(html: string) {
+  const blocks: string[] = [];
+  let cursor = 0;
+
+  while (cursor < html.length) {
+    if (/\s/.test(html[cursor])) {
+      cursor += 1;
+      continue;
+    }
+
+    const remainingHtml = html.slice(cursor);
+    const blockMatch = remainingHtml.match(
+      /^<(h2|h3|h4|p|ul|ol|blockquote)\b[^>]*>/i,
+    );
+
+    if (!blockMatch) {
+      blocks.push(remainingHtml.trim());
+      break;
+    }
+
+    const tagName = blockMatch[1].toLowerCase();
+    const blockHtml = extractTopLevelBlock(html, cursor, tagName);
+
+    if (!blockHtml.trim()) {
+      break;
+    }
+
+    blocks.push(blockHtml);
+    cursor += blockHtml.length;
+  }
+
+  return blocks.filter(Boolean);
+}
+
+export function splitRichTextForInlineCta(value: unknown): RichTextSplitResult {
+  const html = richTextToHtml(value);
+
+  if (!html) {
+    return {
+      beforeCta: null,
+      afterCta: null,
+      placement: "before-following-section",
+      hasArticleContent: false,
+    };
+  }
+
+  const blocks = getTopLevelHtmlBlocks(html);
+  const articleHtml = blocks.length > 0 ? blocks.join("") : html;
+  const h2Indexes = blocks.reduce<number[]>((indexes, block, index) => {
+    if (/^<h2\b/i.test(block)) {
+      indexes.push(index);
+    }
+
+    return indexes;
+  }, []);
+
+  if (h2Indexes.length === 0) {
+    return {
+      beforeCta: { html: articleHtml },
+      afterCta: null,
+      placement: "before-following-section",
+      hasArticleContent: Boolean(articleHtml.trim()),
+    };
+  }
+
+  const targetH2Index = h2Indexes[1] ?? h2Indexes[0];
+  const nextH2Index =
+    h2Indexes.find((index) => index > targetH2Index) ?? blocks.length;
+  const splitIndex = nextH2Index;
+  const beforeHtml = blocks.slice(0, splitIndex).join("");
+  const afterHtml = blocks.slice(splitIndex).join("");
+
+  return {
+    beforeCta: beforeHtml ? { html: beforeHtml } : null,
+    afterCta: afterHtml ? { html: afterHtml } : null,
+    placement: "inline-after-section",
+    hasArticleContent: true,
+  };
 }
 
 export function richTextToPlainText(value: unknown): string {
