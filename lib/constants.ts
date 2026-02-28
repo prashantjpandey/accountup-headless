@@ -1,12 +1,14 @@
 export const NAV_LINKS = [
   { href: "/#services", label: "Services" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/resources", label: "Resources" },
 ] as const;
 
 export const FOOTER_COLUMNS = {
   Company: [
     { label: "About", href: "#" },
     { label: "Careers", href: "#" },
+    { label: "Resources", href: "/resources" },
   ],
   Services: [
     { label: "Bookkeeping", href: "/#services" },

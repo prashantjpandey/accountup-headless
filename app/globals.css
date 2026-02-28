@@ -202,6 +202,14 @@ body {
   );
 }
 
+.resources-hero-surface {
+  background:
+    radial-gradient(circle at 14% 20%, rgba(105, 106, 246, 0.12) 0%, transparent 28%),
+    radial-gradient(circle at 84% 18%, rgba(205, 117, 34, 0.1) 0%, transparent 26%),
+    radial-gradient(circle at 52% 78%, rgba(197, 194, 249, 0.14) 0%, transparent 32%),
+    linear-gradient(180deg, #faf8fb 0%, #fbf7f3 56%, #fbf9f8 100%);
+}
+
 /* Compare section: purple & orange gradient band, seamless top/bottom with page background */
 .compare-gradient {
   background-color: var(--background);
@@ -259,6 +267,65 @@ body {
 
 .module-fade-in {
   animation: pricing-fade-in 220ms ease-out;
+}
+
+.calculator-rich-text p + p,
+.calculator-rich-text ul + p,
+.calculator-rich-text ol + p,
+.calculator-rich-text blockquote + p,
+.calculator-rich-text p + ul,
+.calculator-rich-text p + ol,
+.calculator-rich-text ul + ul,
+.calculator-rich-text ol + ol {
+  margin-top: 1rem;
+}
+
+.calculator-rich-text h2,
+.calculator-rich-text h3,
+.calculator-rich-text h4 {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.calculator-rich-text h2 {
+  font-size: 1.5rem;
+}
+
+.calculator-rich-text h3 {
+  font-size: 1.25rem;
+}
+
+.calculator-rich-text ul,
+.calculator-rich-text ol {
+  padding-left: 1.25rem;
+}
+
+.calculator-rich-text ul {
+  list-style: disc;
+}
+
+.calculator-rich-text ol {
+  list-style: decimal;
+}
+
+.calculator-rich-text li + li {
+  margin-top: 0.5rem;
+}
+
+.calculator-rich-text a {
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.calculator-rich-text blockquote {
+  margin-top: 1rem;
+  border-left: 3px solid color-mix(in srgb, var(--purple) 32%, transparent);
+  padding-left: 1rem;
+  color: color-mix(in srgb, var(--ink) 72%, var(--charcoal) 28%);
 }
 
 @media (prefers-reduced-motion: reduce) {
