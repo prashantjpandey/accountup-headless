@@ -228,6 +228,823 @@ body {
   );
 }
 
+.ops-diagram-surface {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(205, 117, 34, 0.14) 0%, transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(105, 106, 246, 0.14) 0%, transparent 30%),
+    radial-gradient(circle at 50% 70%, rgba(197, 194, 249, 0.14) 0%, transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(251, 249, 248, 0.94) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.ops-diagram-card {
+  box-shadow: 0 16px 34px -30px rgba(17, 17, 19, 0.38);
+}
+
+.core-service-layout {
+  align-items: center;
+}
+
+.core-service-copy {
+  max-width: 40rem;
+}
+
+.core-service-description {
+  max-width: 38ch;
+}
+
+.core-service-bullets {
+  max-width: 42rem;
+}
+
+.core-service-visual {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 22rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+@media (min-width: 40rem) {
+  .core-service-visual {
+    max-width: 26rem;
+    padding-top: 1.75rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .core-service-bullets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+
+  .core-service-visual {
+    max-width: 32rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .core-service-copy,
+  .core-service-description,
+  .core-service-bullets {
+    max-width: none;
+  }
+
+  .core-service-bullets {
+    grid-template-columns: 1fr;
+  }
+
+  .core-service-visual {
+    max-width: none;
+    margin-inline: 0;
+    padding-top: 0;
+    padding-left: 2.5rem;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.45);
+  }
+}
+
+.finance-engine-stage {
+  background:
+    radial-gradient(circle at 16% 16%, rgba(105, 106, 246, 0.1) 0%, transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(205, 117, 34, 0.11) 0%, transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 247, 252, 0.9) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.finance-engine-expense-row,
+.finance-engine-feed-row,
+.finance-engine-confirmation,
+.finance-engine-pill,
+.finance-engine-category {
+  opacity: 0.32;
+}
+
+.finance-engine-expense-row,
+.finance-engine-feed-row {
+  position: relative;
+  overflow: hidden;
+}
+
+.finance-engine-expense-row {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr) 1.15rem;
+  animation: finance-engine-step 7.2s ease-in-out infinite both;
+  animation-delay: var(--engine-delay, 0s);
+}
+
+.finance-engine-expense-row::after,
+.finance-engine-feed-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.58) 46%, transparent 100%);
+  transform: translateX(-135%);
+  animation: finance-engine-scan 7.2s ease-in-out infinite both;
+  animation-delay: var(--engine-delay, 0s);
+}
+
+.finance-engine-feed-row {
+  border-left: 2px solid color-mix(in srgb, var(--primary) 26%, transparent);
+  padding-left: 0.85rem;
+  animation: finance-engine-step 7.2s ease-in-out infinite both;
+  animation-delay: var(--engine-delay, 0s);
+}
+
+.finance-engine-check {
+  opacity: 0;
+  transform: scale(0.72);
+  box-shadow: 0 0 0 rgba(23, 198, 23, 0);
+  animation: finance-engine-check 7.2s ease-in-out infinite both;
+  animation-delay: calc(var(--engine-delay, 0s) + 0.24s);
+}
+
+.finance-engine-category {
+  opacity: 0;
+  transform: translateX(4px);
+  animation: finance-engine-category-in 7.2s ease-in-out infinite both;
+  animation-delay: calc(var(--engine-delay, 0s) + 0.1s);
+}
+
+.finance-engine-confirmation,
+.finance-engine-pill {
+  transform: translateY(8px);
+  animation: finance-engine-confirm 7.2s ease-in-out infinite both;
+  animation-delay: var(--engine-delay, 0s);
+}
+
+.finance-engine-progress-fill {
+  transform-origin: left center;
+  transform: scaleX(0.08);
+  box-shadow: 0 0 0 rgba(57, 193, 26, 0);
+  animation: finance-engine-progress 7.2s ease-in-out infinite both;
+  animation-delay: 4.05s;
+}
+
+.finance-engine-expense-row.is-static,
+.finance-engine-feed-row.is-static,
+.finance-engine-confirmation.is-static,
+.finance-engine-pill.is-static,
+.finance-engine-progress-fill.is-static,
+.finance-engine-check.is-static,
+.finance-engine-category.is-static {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+}
+
+.finance-engine-feed-row.is-static {
+  border-left-color: color-mix(in srgb, var(--primary) 38%, transparent);
+}
+
+.finance-engine-check.is-static {
+  transform: scale(1);
+}
+
+.finance-engine-progress-fill.is-static {
+  transform: scaleX(1);
+}
+
+@keyframes finance-engine-step {
+  0%,
+  12% {
+    opacity: 0.3;
+    transform: translateY(4px);
+    background-color: transparent;
+  }
+  20%,
+  84% {
+    opacity: 1;
+    transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes finance-engine-check {
+  0%,
+  18% {
+    opacity: 0;
+    transform: scale(0.72);
+    box-shadow: 0 0 0 rgba(23, 198, 23, 0);
+  }
+  27%,
+  84% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 10px 18px -14px rgba(23, 198, 23, 0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 10px 18px -14px rgba(23, 198, 23, 0.9);
+  }
+}
+
+@keyframes finance-engine-category-in {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  24%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes finance-engine-scan {
+  0%,
+  10% {
+    transform: translateX(-135%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.65;
+  }
+  34%,
+  100% {
+    transform: translateX(135%);
+    opacity: 0;
+  }
+}
+
+@keyframes finance-engine-confirm {
+  0%,
+  14% {
+    opacity: 0.18;
+    transform: translateY(8px);
+  }
+  24%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes finance-engine-progress {
+  0%,
+  8% {
+    transform: scaleX(0.08);
+    box-shadow: 0 0 0 rgba(57, 193, 26, 0);
+  }
+  28%,
+  100% {
+    transform: scaleX(1);
+    box-shadow: 0 10px 26px -18px rgba(57, 193, 26, 0.95);
+  }
+}
+
+.compliance-engine-stage {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(105, 106, 246, 0.1) 0%, transparent 24%),
+    radial-gradient(circle at 84% 18%, rgba(205, 117, 34, 0.08) 0%, transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76) 0%, rgba(248, 247, 252, 0.9) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.compliance-engine-shell {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(249, 248, 252, 0.9) 100%);
+}
+
+.compliance-engine-chip,
+.compliance-engine-kpi,
+.compliance-engine-filing-row,
+.compliance-engine-status,
+.compliance-engine-insight-tile,
+.compliance-engine-system-status {
+  opacity: 0.28;
+}
+
+.compliance-engine-chip,
+.compliance-engine-kpi,
+.compliance-engine-filing-row,
+.compliance-engine-insight-tile,
+.compliance-engine-system-status {
+  transform: translateY(5px);
+}
+
+.compliance-engine-chip {
+  animation: compliance-engine-chip-in 8.2s ease-in-out infinite both;
+  animation-delay: var(--compliance-delay, 0s);
+}
+
+.compliance-engine-system-status {
+  animation: compliance-engine-activate 8.2s ease-in-out infinite both;
+  animation-delay: var(--compliance-delay, 0s);
+}
+
+.compliance-engine-kpi {
+  animation: compliance-engine-activate 8.2s ease-in-out infinite both;
+  animation-delay: var(--compliance-delay, 0s);
+}
+
+.compliance-engine-filing-row {
+  animation: compliance-engine-activate 8.2s ease-in-out infinite both;
+  animation-delay: var(--compliance-delay, 0s);
+}
+
+.compliance-engine-status {
+  animation: compliance-engine-status-settle 8.2s ease-in-out infinite both;
+  animation-delay: calc(var(--compliance-delay, 0s) + 0.18s);
+}
+
+.compliance-engine-insight-tile {
+  animation: compliance-engine-tile-settle 8.2s ease-in-out infinite both;
+  animation-delay: var(--compliance-delay, 0s);
+}
+
+.compliance-engine-filing-row-filed {
+  background: linear-gradient(180deg, rgba(231, 247, 235, 0.9) 0%, rgba(248, 251, 248, 0.98) 100%);
+}
+
+.compliance-engine-filing-row-pending {
+  background: linear-gradient(180deg, rgba(244, 239, 214, 0.88) 0%, rgba(250, 249, 244, 0.98) 100%);
+}
+
+.compliance-engine-filing-row-due-soon {
+  background: linear-gradient(180deg, rgba(239, 233, 249, 0.9) 0%, rgba(250, 248, 253, 0.98) 100%);
+}
+
+.compliance-engine-status-filed {
+  border: 1px solid rgba(85, 211, 136, 0.9);
+  background: rgba(226, 249, 234, 0.92);
+  color: #259a4c;
+}
+
+.compliance-engine-status-pending {
+  border: 1px solid rgba(220, 198, 82, 0.88);
+  background: rgba(250, 245, 209, 0.92);
+  color: #ae9320;
+}
+
+.compliance-engine-status-due-soon {
+  border: 1px solid rgba(153, 102, 255, 0.7);
+  background: rgba(239, 230, 255, 0.94);
+  color: #8557d1;
+}
+
+.compliance-engine-insight-green {
+  background: linear-gradient(180deg, rgba(247, 250, 247, 0.94) 0%, rgba(252, 252, 252, 0.98) 100%);
+}
+
+.compliance-engine-insight-lavender,
+.compliance-engine-insight-purple {
+  background: linear-gradient(180deg, rgba(246, 242, 252, 0.94) 0%, rgba(252, 251, 254, 0.98) 100%);
+}
+
+.compliance-engine-countdown,
+.compliance-engine-rd-value {
+  display: inline-block;
+}
+
+.compliance-engine-countdown {
+  animation: compliance-engine-countdown-pulse 8.2s ease-in-out infinite both;
+  animation-delay: calc(var(--compliance-delay, 0s) + 0.26s);
+}
+
+.compliance-engine-rd-value {
+  animation: compliance-engine-rd-emphasis 8.2s ease-in-out infinite both;
+  animation-delay: calc(var(--compliance-delay, 0s) + 0.3s);
+}
+
+.compliance-engine-chip.is-static,
+.compliance-engine-kpi.is-static,
+.compliance-engine-filing-row.is-static,
+.compliance-engine-status.is-static,
+.compliance-engine-insight-tile.is-static,
+.compliance-engine-system-status.is-static,
+.compliance-engine-countdown.is-static,
+.compliance-engine-rd-value.is-static {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes compliance-engine-activate {
+  0%,
+  12% {
+    opacity: 0.28;
+    transform: translateY(5px);
+  }
+  22%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes compliance-engine-chip-in {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.97);
+  }
+  18%,
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes compliance-engine-status-settle {
+  0%,
+  16% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  24%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes compliance-engine-tile-settle {
+  0%,
+  12% {
+    opacity: 0.26;
+    transform: translateY(5px);
+  }
+  22%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes compliance-engine-countdown-pulse {
+  0%,
+  18%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  26% {
+    transform: scale(1.03);
+    opacity: 0.92;
+  }
+}
+
+@keyframes compliance-engine-rd-emphasis {
+  0%,
+  18%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  26% {
+    transform: translateY(-1px);
+    opacity: 0.94;
+  }
+}
+
+.reporting-engine-stage {
+  background:
+    radial-gradient(circle at 14% 14%, rgba(205, 117, 34, 0.1) 0%, transparent 24%),
+    radial-gradient(circle at 86% 16%, rgba(105, 106, 246, 0.1) 0%, transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76) 0%, rgba(248, 247, 252, 0.9) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.reporting-engine-shell {
+  background:
+    linear-gradient(90deg, rgba(250, 242, 233, 0.84) 0%, rgba(248, 241, 250, 0.9) 100%);
+}
+
+.reporting-engine-metric,
+.reporting-engine-line-segment,
+.reporting-engine-line-point,
+.reporting-engine-bar,
+.reporting-engine-status-chip {
+  opacity: 0.28;
+}
+
+.reporting-engine-metric,
+.reporting-engine-status-chip {
+  transform: translateY(5px);
+  animation: reporting-engine-card-settle 8.2s ease-in-out infinite both;
+  animation-delay: var(--reporting-delay, 0s);
+}
+
+.reporting-engine-chart {
+  min-height: 16rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.reporting-engine-plot {
+  position: relative;
+  height: 13rem;
+}
+
+.reporting-engine-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: space-between;
+  pointer-events: none;
+}
+
+.reporting-engine-grid-line {
+  display: block;
+  width: 100%;
+  border-top: 1px solid rgba(17, 17, 19, 0.12);
+}
+
+.reporting-engine-line-svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.reporting-engine-line-path {
+  fill: none;
+  stroke: #31c62c;
+  stroke-width: 0.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  box-shadow: 0 0 0 rgba(49, 198, 44, 0);
+  animation: reporting-engine-line-draw 8.2s ease-in-out infinite both;
+  animation-delay: var(--reporting-delay, 0s);
+}
+
+.reporting-engine-line-point {
+  fill: #ffffff;
+  stroke: #31c62c;
+  stroke-width: 0.45;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.72);
+  box-shadow: 0 0 0 rgba(49, 198, 44, 0);
+  animation: reporting-engine-point-settle 8.2s ease-in-out infinite both;
+  animation-delay: var(--reporting-delay, 0s);
+}
+
+.reporting-engine-bars-stage {
+  position: absolute;
+  inset: 0 0 0.15rem;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.55rem;
+}
+
+.reporting-engine-bar-group {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 0.28rem;
+  height: 100%;
+}
+
+.reporting-engine-bar {
+  width: 0.9rem;
+  height: var(--bar-height);
+  border-radius: 0.55rem 0.55rem 0 0;
+  transform-origin: bottom center;
+  transform: scaleY(0.12);
+  animation: reporting-engine-bar-grow 8.2s ease-in-out infinite both;
+  animation-delay: var(--reporting-delay, 0s);
+}
+
+.reporting-engine-expense-bar {
+  background: linear-gradient(180deg, rgba(240, 191, 142, 0.98) 0%, rgba(238, 181, 123, 0.95) 100%);
+}
+
+.reporting-engine-revenue-bar {
+  background: linear-gradient(180deg, rgba(189, 183, 239, 0.98) 0%, rgba(175, 168, 233, 0.95) 100%);
+}
+
+.reporting-engine-months {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.55rem;
+  font-size: 0.66rem;
+  color: rgba(17, 17, 19, 0.68);
+  text-align: center;
+}
+
+.reporting-engine-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 0.68rem;
+  color: rgba(17, 17, 19, 0.68);
+}
+
+.core-service-visual .finance-engine-stage,
+.core-service-visual .compliance-engine-stage,
+.core-service-visual .reporting-engine-stage {
+  box-shadow: 0 18px 38px -30px rgba(17, 17, 19, 0.26);
+  backdrop-filter: blur(6px);
+}
+
+.core-service-visual .finance-engine-stage {
+  background:
+    radial-gradient(circle at 16% 16%, rgba(105, 106, 246, 0.06) 0%, transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(205, 117, 34, 0.07) 0%, transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(248, 247, 252, 0.93) 100%);
+}
+
+.core-service-visual .compliance-engine-stage {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(105, 106, 246, 0.06) 0%, transparent 24%),
+    radial-gradient(circle at 84% 18%, rgba(205, 117, 34, 0.05) 0%, transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 247, 252, 0.93) 100%);
+}
+
+.core-service-visual .reporting-engine-stage {
+  background:
+    radial-gradient(circle at 14% 14%, rgba(205, 117, 34, 0.06) 0%, transparent 24%),
+    radial-gradient(circle at 86% 16%, rgba(105, 106, 246, 0.06) 0%, transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 247, 252, 0.93) 100%);
+}
+
+.reporting-engine-chart {
+  min-height: 14.25rem;
+}
+
+.reporting-engine-plot {
+  height: 11.5rem;
+}
+
+@media (min-width: 48rem) {
+  .reporting-engine-chart {
+    min-height: 15rem;
+  }
+
+  .reporting-engine-plot {
+    height: 12rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .core-service-visual .finance-engine-stage,
+  .core-service-visual .compliance-engine-stage,
+  .core-service-visual .reporting-engine-stage {
+    box-shadow: 0 24px 54px -36px rgba(17, 17, 19, 0.34);
+    backdrop-filter: blur(8px);
+  }
+
+  .core-service-visual .finance-engine-stage {
+    background:
+      radial-gradient(circle at 16% 16%, rgba(105, 106, 246, 0.1) 0%, transparent 24%),
+      radial-gradient(circle at 82% 18%, rgba(205, 117, 34, 0.11) 0%, transparent 26%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 247, 252, 0.9) 100%);
+  }
+
+  .core-service-visual .compliance-engine-stage {
+    background:
+      radial-gradient(circle at 16% 14%, rgba(105, 106, 246, 0.1) 0%, transparent 24%),
+      radial-gradient(circle at 84% 18%, rgba(205, 117, 34, 0.08) 0%, transparent 24%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.76) 0%, rgba(248, 247, 252, 0.9) 100%);
+  }
+
+  .core-service-visual .reporting-engine-stage {
+    background:
+      radial-gradient(circle at 14% 14%, rgba(205, 117, 34, 0.1) 0%, transparent 24%),
+      radial-gradient(circle at 86% 16%, rgba(105, 106, 246, 0.1) 0%, transparent 25%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.76) 0%, rgba(248, 247, 252, 0.9) 100%);
+  }
+
+  .reporting-engine-chart {
+    min-height: 16rem;
+  }
+
+  .reporting-engine-plot {
+    height: 13rem;
+  }
+}
+
+.reporting-engine-metric.is-static,
+.reporting-engine-line-svg.is-static,
+.reporting-engine-line-point.is-static,
+.reporting-engine-bar.is-static,
+.reporting-engine-status-chip.is-static {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+}
+
+@keyframes reporting-engine-card-settle {
+  0%,
+  12% {
+    opacity: 0.28;
+    transform: translateY(5px);
+  }
+  20%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reporting-engine-line-draw {
+  0%,
+  14% {
+    opacity: 0.22;
+    stroke-dashoffset: 160;
+    box-shadow: 0 0 0 rgba(49, 198, 44, 0);
+  }
+  24%,
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    box-shadow: 0 10px 20px -18px rgba(49, 198, 44, 0.9);
+  }
+}
+
+@keyframes reporting-engine-point-settle {
+  0%,
+  16% {
+    opacity: 0;
+    transform: scale(0.72);
+    box-shadow: 0 0 0 rgba(49, 198, 44, 0);
+  }
+  24%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 8px 18px -14px rgba(49, 198, 44, 0.82);
+  }
+}
+
+@keyframes reporting-engine-bar-grow {
+  0%,
+  12% {
+    opacity: 0.24;
+    transform: scaleY(0.12);
+  }
+  22%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.ops-diagram-fuel-line {
+  position: relative;
+  height: 2px;
+  min-width: 1.75rem;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ops-accent) 68%, transparent) 0 5px,
+    transparent 5px 8px
+  );
+}
+
+.ops-diagram-fuel-line-flow {
+  transition: width 200ms ease, opacity 200ms ease;
+}
+
+.ops-diagram-fuel-line-flow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -1.2rem;
+  width: 1.5rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background:
+    linear-gradient(90deg, transparent 0%, color-mix(in srgb, white 34%, var(--ops-accent) 66%) 36%, color-mix(in srgb, white 10%, var(--ops-accent) 90%) 52%, color-mix(in srgb, white 34%, var(--ops-accent) 66%) 68%, transparent 100%);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--ops-accent) 45%, transparent),
+    0 0 18px color-mix(in srgb, var(--ops-accent) 24%, transparent);
+  transform: translateY(-50%);
+  animation: ops-fuel-flow 0.95s linear infinite;
+  opacity: 1;
+}
+
+@keyframes ops-fuel-flow {
+  0% {
+    transform: translate(-0.4rem, -50%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(100% + 1rem), -50%);
+    opacity: 0;
+  }
+}
+
 .pricing-range {
   appearance: none;
   -webkit-appearance: none;
@@ -359,5 +1176,35 @@ body {
   .price-fade-in,
   .module-fade-in {
     animation: none;
+  }
+
+  .finance-engine-expense-row,
+  .finance-engine-feed-row,
+  .finance-engine-confirmation,
+  .finance-engine-pill,
+  .finance-engine-progress-fill,
+  .finance-engine-check,
+  .finance-engine-category,
+  .compliance-engine-chip,
+  .compliance-engine-kpi,
+  .compliance-engine-filing-row,
+  .compliance-engine-status,
+  .compliance-engine-insight-tile,
+  .compliance-engine-system-status,
+  .compliance-engine-countdown,
+  .compliance-engine-rd-value,
+  .reporting-engine-metric,
+  .reporting-engine-line-svg,
+  .reporting-engine-line-point,
+  .reporting-engine-bar,
+  .reporting-engine-status-chip,
+  .finance-engine-expense-row::after,
+  .finance-engine-feed-row::after {
+    animation: none;
+  }
+
+  .ops-diagram-fuel-line-flow::after {
+    animation: none;
+    opacity: 0;
   }
 }

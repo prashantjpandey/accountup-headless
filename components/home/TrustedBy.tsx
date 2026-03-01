@@ -179,20 +179,20 @@ export function TrustedBy() {
                       <Image
                         src={src}
                         alt={name}
-                        width={360}
-                        height={112}
+                        width={224}
+                        height={96}
                         draggable={false}
-                        className="h-[4rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] md:h-[5.25rem]"
+                        className="h-16 w-36 object-contain object-center opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] sm:w-40 md:h-20 md:w-44"
                       />
                     </a>
                   ) : (
                     <Image
                       src={src}
                       alt={name}
-                      width={360}
-                      height={112}
+                      width={224}
+                      height={96}
                       draggable={false}
-                      className="h-[4rem] w-auto opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] md:h-[5.25rem]"
+                      className="h-16 w-36 object-contain object-center opacity-75 brightness-95 transition-[opacity,filter] duration-300 hover:opacity-100 hover:brightness-100 sm:h-[4.5rem] sm:w-40 md:h-20 md:w-44"
                     />
                   )}
                 </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { HeroVideo } from "@/components/home/HeroVideo";
+import { OpsComplianceInsightsDiagram } from "@/components/home/OpsComplianceInsightsDiagram";
 import {
   fadeUp,
   softScaleIn,
@@ -59,8 +59,8 @@ export function Hero() {
           transition={{ duration: 0.55, delay: 0.14 }}
         >
           <div className="absolute inset-0 mx-auto h-[520px] w-full max-w-[42rem] glow-blob-purple opacity-35 md:h-[620px]" />
-          <motion.div className="relative w-full max-w-[46rem] lg:origin-right lg:scale-[1.08]">
-            <HeroVideo />
+          <motion.div className="relative w-full max-w-[39rem] lg:origin-right">
+            <OpsComplianceInsightsDiagram />
           </motion.div>
         </motion.div>
       </div>

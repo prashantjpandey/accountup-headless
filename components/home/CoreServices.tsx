@@ -2,6 +2,9 @@
 
 import { motion, type Variants } from "framer-motion";
 import { Card } from "@/components/ui/Card";
+import { BookkeepingPayrollEngine } from "@/components/home/BookkeepingPayrollEngine";
+import { ComplianceFilingsEngine } from "@/components/home/ComplianceFilingsEngine";
+import { ReportingInsightsEngine } from "@/components/home/ReportingInsightsEngine";
 import { DashboardVideo } from "@/components/ui/DashboardVideo";
 import { CORE_SERVICES } from "@/lib/constants";
 import { videos } from "@/lib/assets";
@@ -76,24 +79,24 @@ export function CoreServices() {
                 className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${panelGradients[service.id] ?? "from-purple/12 via-primary/10 to-transparent"}`}
               />
               <motion.div
-                className="relative z-10 grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
+                className="core-service-layout relative z-10 grid gap-8 lg:gap-10 xl:grid-cols-12 xl:gap-12"
                 variants={moduleStagger}
                 initial={reduceMotion ? false : "hidden"}
                 whileInView={reduceMotion ? undefined : "visible"}
                 viewport={{ once: true, amount: 0.3 }}
               >
-                <motion.div className="relative lg:col-span-4" variants={fadeUp}>
+                <motion.div className="core-service-copy relative xl:col-span-5" variants={fadeUp}>
                   <h3 className="font-display text-3xl font-semibold tracking-tight text-ink">
                     {service.title}
                   </h3>
                   <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-purple md:text-base">
                     {service.subtitle}
                   </p>
-                  <p className="mt-5 text-base leading-relaxed text-charcoal md:text-lg">
+                  <p className="core-service-description mt-5 text-base leading-relaxed text-charcoal md:text-lg">
                     {service.description}
                   </p>
                   <motion.ul
-                    className="mt-7 space-y-3"
+                    className="core-service-bullets mt-7 grid gap-3"
                     variants={subtleListStagger}
                   >
                     {service.bullets.map((bullet) => (
@@ -109,28 +112,28 @@ export function CoreServices() {
                   </motion.ul>
                 </motion.div>
                 <motion.div
-                  className="relative min-w-0 lg:col-span-8 lg:border-l lg:border-white/45"
+                  className="core-service-visual relative min-w-0 xl:col-span-7"
                   variants={softScaleIn}
                   transition={{ duration: 0.55, delay: 0.08 }}
                 >
                   <motion.div
-                    whileHover={reduceMotion ? undefined : { y: -2 }}
-                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden rounded-2xl"
+                    className="core-service-visual-frame overflow-hidden rounded-2xl transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transform-none xl:hover:-translate-y-0.5"
                   >
-                    <DashboardVideo
-                      src={
-                        service.id === "daily-ops"
-                          ? videos.bookkeepingPayroll
-                          : service.id === "compliance"
-                          ? videos.complianceFilings
-                          : videos.reportingInsights
-                      }
-                      ariaHidden
-                      loopStartSeconds={4}
-                      loopEndSeconds={8}
-                      className="w-full [&_video]:block [&_video]:h-auto [&_video]:w-full [&_video]:object-contain"
-                    />
+                    {service.id === "daily-ops" ? (
+                      <BookkeepingPayrollEngine />
+                    ) : service.id === "compliance" ? (
+                      <ComplianceFilingsEngine />
+                    ) : service.id === "reporting" ? (
+                      <ReportingInsightsEngine />
+                    ) : (
+                      <DashboardVideo
+                        src={videos.reportingInsights}
+                        ariaHidden
+                        loopStartSeconds={4}
+                        loopEndSeconds={8}
+                        className="w-full [&_video]:block [&_video]:h-auto [&_video]:w-full [&_video]:object-contain"
+                      />
+                    )}
                   </motion.div>
                 </motion.div>
               </motion.div>

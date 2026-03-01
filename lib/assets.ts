@@ -18,7 +18,7 @@ export const clientLogos: { name: string; src: string; href?: string }[] = [
   },
   {
     name: "Dawn Global",
-    src: "/assets/logos/DawnGlobal_Logo.png_",
+    src: "/assets/logos/DawnGlobal_Logo.png",
     href: "https://dawnglobal.com/",
   },
   {
