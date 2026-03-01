@@ -1,20 +1,77 @@
-export const NAV_LINKS = [
-  { href: "/#services", label: "Services" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/resources", label: "Resources" },
+export type NavLink =
+  | {
+      kind: "link";
+      href: string;
+      label: string;
+    }
+  | {
+      kind: "resources";
+      label: string;
+    };
+
+export type ResourceNavLink = {
+  label: string;
+  href: string;
+};
+
+export type ResourceNavGroup = {
+  title: string;
+  links: ResourceNavLink[];
+};
+
+export const RESOURCE_NAV_GROUPS: ResourceNavGroup[] = [
+  {
+    title: "Toolkit",
+    links: [
+      { label: "Resources Hub", href: "/resources" },
+      { label: "FinStack UK", href: "/finstack" },
+    ],
+  },
+  {
+    title: "Assessments",
+    links: [
+      { label: "Calculators", href: "/resources/calculators" },
+      { label: "Finance Diagnostics", href: "/resources/diagnostics" },
+    ],
+  },
+  {
+    title: "Utilities",
+    links: [{ label: "Practical Utilities", href: "/resources/utilities" }],
+  },
+  {
+    title: "Directory",
+    links: [
+      { label: "Grants Directory", href: "/resources/grants" },
+      { label: "Case Studies", href: "/resources/case-studies" },
+    ],
+  },
+  {
+    title: "Insights",
+    links: [{ label: "Insights", href: "/insights" }],
+  },
 ] as const;
+
+export const RESOURCE_NAV_LINKS: ResourceNavLink[] = RESOURCE_NAV_GROUPS.flatMap(
+  (group) => group.links,
+);
+
+export const NAV_LINKS: NavLink[] = [
+  { kind: "link", href: "/#services", label: "Services" },
+  { kind: "link", href: "/pricing", label: "Pricing" },
+  { kind: "resources", label: "Resources" },
+];
 
 export const FOOTER_COLUMNS = {
   Company: [
     { label: "About", href: "#" },
     { label: "Careers", href: "#" },
-    { label: "Resources", href: "/resources" },
   ],
   Services: [
     { label: "Bookkeeping", href: "/#services" },
     { label: "Payroll", href: "/#services" },
     { label: "Compliance", href: "/#services" },
   ],
+  Resources: RESOURCE_NAV_LINKS,
   Legal: [
     { label: "Privacy Policy", href: "#" },
     { label: "Terms of Service", href: "#" },

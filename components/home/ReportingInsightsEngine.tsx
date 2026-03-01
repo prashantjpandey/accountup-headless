@@ -59,21 +59,19 @@ const STATUS_CHIPS: StatusChip[] = [
   { label: "KPI dashboard", status: "Live" },
 ];
 
-const TREND_POINTS = RUNWAY_TREND.map((point, index, points) => {
-  const left =
-    points.length === 1 ? 8 : 8 + (index / (points.length - 1)) * 84;
-  const top = 100 - point.value;
+function buildTrendPoints(points: TrendPoint[]) {
+  return points.map((point, index, allPoints) => {
+    const left =
+      allPoints.length === 1 ? 8 : 8 + (index / (allPoints.length - 1)) * 84;
+    const top = 100 - point.value;
 
-  return {
-    ...point,
-    left,
-    top,
-  };
-});
-
-const RUNWAY_PATH = TREND_POINTS.map((point, index) =>
-  `${index === 0 ? "M" : "L"} ${point.left} ${point.top}`
-).join(" ");
+    return {
+      ...point,
+      left,
+      top,
+    };
+  });
+}
 
 function animationStyle(delaySeconds: number, reduceMotion: boolean) {
   if (reduceMotion) {
@@ -120,8 +118,17 @@ function CheckIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function ReportingInsightsEngine() {
+export function ReportingInsightsEngine({ lite = false }: { lite?: boolean }) {
   const reduceMotion = useReducedMotionSafe();
+  const staticVisual = reduceMotion || lite;
+  const metricCards = lite ? METRIC_CARDS.slice(0, 2) : METRIC_CARDS;
+  const runwayTrend = lite ? RUNWAY_TREND.slice(-5) : RUNWAY_TREND;
+  const revenueExpenses = lite ? REVENUE_EXPENSES.slice(-5) : REVENUE_EXPENSES;
+  const statusChips = lite ? STATUS_CHIPS.slice(0, 2) : STATUS_CHIPS;
+  const trendPoints = buildTrendPoints(runwayTrend);
+  const runwayPath = trendPoints
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.left} ${point.top}`)
+    .join(" ");
 
   return (
     <div className="reporting-engine-stage mx-auto w-full max-w-[39rem] rounded-[1.35rem] border border-white/65 p-2.5 shadow-[0_24px_54px_-36px_rgba(17,17,19,0.34)] sm:max-w-[40rem] sm:p-3">
@@ -131,11 +138,11 @@ export function ReportingInsightsEngine() {
         </div>
 
         <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          {METRIC_CARDS.map((card, index) => (
+          {metricCards.map((card, index) => (
             <section
               key={card.title}
-              style={animationStyle(index * 0.18, reduceMotion)}
-              className={`reporting-engine-metric rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.25 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${reduceMotion ? "is-static" : ""}`}
+              style={animationStyle(index * 0.18, staticVisual)}
+              className={`reporting-engine-metric rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.25 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${staticVisual ? "is-static" : ""}`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="text-[0.82rem] font-medium text-ink/82 sm:text-[0.88rem]">
@@ -168,27 +175,27 @@ export function ReportingInsightsEngine() {
                   aria-hidden="true"
                   viewBox="0 0 100 100"
                   preserveAspectRatio="none"
-                  className={`reporting-engine-line-svg ${reduceMotion ? "is-static" : ""}`}
+                  className={`reporting-engine-line-svg ${staticVisual ? "is-static" : ""}`}
                 >
                   <path
-                    d={RUNWAY_PATH}
-                    className="reporting-engine-line-path"
-                    style={animationStyle(0.9, reduceMotion)}
+                    d={runwayPath}
+                    className={`reporting-engine-line-path ${staticVisual ? "is-static" : ""}`}
+                    style={animationStyle(0.9, staticVisual)}
                   />
-                  {TREND_POINTS.map((point, index) => (
+                  {trendPoints.map((point, index) => (
                     <circle
                       key={point.month}
                       cx={point.left}
                       cy={point.top}
                       r="1.1"
-                      style={animationStyle(1 + index * 0.18, reduceMotion)}
-                      className={`reporting-engine-line-point ${reduceMotion ? "is-static" : ""}`}
+                      style={animationStyle(1 + index * 0.18, staticVisual)}
+                      className={`reporting-engine-line-point ${staticVisual ? "is-static" : ""}`}
                     />
                   ))}
                 </svg>
               </div>
               <div className="reporting-engine-months">
-                {RUNWAY_TREND.map((point) => (
+                {runwayTrend.map((point) => (
                   <span key={point.month}>{point.month}</span>
                 ))}
               </div>
@@ -207,7 +214,7 @@ export function ReportingInsightsEngine() {
                   ))}
                 </div>
                 <div className="reporting-engine-bars-stage">
-                  {REVENUE_EXPENSES.map((point, index) => (
+                  {revenueExpenses.map((point, index) => (
                     <div key={point.month} className="reporting-engine-bar-group">
                       <span
                         style={
@@ -216,7 +223,7 @@ export function ReportingInsightsEngine() {
                             "--reporting-delay": `${1.35 + index * 0.14}s`,
                           } as CSSProperties
                         }
-                        className={`reporting-engine-bar reporting-engine-expense-bar ${reduceMotion ? "is-static" : ""}`}
+                        className={`reporting-engine-bar reporting-engine-expense-bar ${staticVisual ? "is-static" : ""}`}
                       />
                       <span
                         style={
@@ -225,14 +232,14 @@ export function ReportingInsightsEngine() {
                             "--reporting-delay": `${1.45 + index * 0.14}s`,
                           } as CSSProperties
                         }
-                        className={`reporting-engine-bar reporting-engine-revenue-bar ${reduceMotion ? "is-static" : ""}`}
+                        className={`reporting-engine-bar reporting-engine-revenue-bar ${staticVisual ? "is-static" : ""}`}
                       />
                     </div>
                   ))}
                 </div>
               </div>
               <div className="reporting-engine-months">
-                {REVENUE_EXPENSES.map((point) => (
+                {revenueExpenses.map((point) => (
                   <span key={point.month}>{point.month}</span>
                 ))}
               </div>
@@ -251,11 +258,11 @@ export function ReportingInsightsEngine() {
         </div>
 
         <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          {STATUS_CHIPS.map((chip, index) => (
+          {statusChips.map((chip, index) => (
             <div
               key={chip.label}
-              style={animationStyle(2.35 + index * 0.16, reduceMotion)}
-              className={`reporting-engine-status-chip inline-flex items-center justify-center gap-2 rounded-[0.82rem] border border-[#7fd38c]/40 bg-[linear-gradient(180deg,rgba(191,225,183,0.94)_0%,rgba(169,206,159,0.92)_100%)] px-2.5 py-1.25 text-[0.72rem] font-medium text-[#32563a] shadow-[0_12px_20px_-18px_rgba(50,86,58,0.34)] ${reduceMotion ? "is-static" : ""}`}
+              style={animationStyle(2.35 + index * 0.16, staticVisual)}
+              className={`reporting-engine-status-chip inline-flex items-center justify-center gap-2 rounded-[0.82rem] border border-[#7fd38c]/40 bg-[linear-gradient(180deg,rgba(191,225,183,0.94)_0%,rgba(169,206,159,0.92)_100%)] px-2.5 py-1.25 text-[0.72rem] font-medium text-[#32563a] shadow-[0_12px_20px_-18px_rgba(50,86,58,0.34)] ${staticVisual ? "is-static" : ""}`}
             >
               <span>{chip.label} -</span>
               <span className="inline-flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#109d10] text-white">

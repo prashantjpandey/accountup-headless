@@ -208,8 +208,12 @@ function InsightIcon({
   return <MoneyIcon className={className} />;
 }
 
-export function ComplianceFilingsEngine() {
+export function ComplianceFilingsEngine({ lite = false }: { lite?: boolean }) {
   const reduceMotion = useReducedMotionSafe();
+  const staticVisual = reduceMotion || lite;
+  const checklistItems = lite ? CHECKLIST_ITEMS.slice(0, 3) : CHECKLIST_ITEMS;
+  const filingRows = lite ? FILING_ROWS.slice(0, 4) : FILING_ROWS;
+  const insightTiles = lite ? INSIGHT_TILES.slice(0, 2) : INSIGHT_TILES;
 
   return (
     <div className="compliance-engine-stage mx-auto w-full max-w-[39rem] rounded-[1.35rem] border border-white/65 p-2.5 shadow-[0_24px_54px_-36px_rgba(17,17,19,0.34)] sm:max-w-[40rem] sm:p-3">
@@ -220,19 +224,19 @@ export function ComplianceFilingsEngine() {
               Checklist
             </div>
             <div
-              style={animationStyle(2.65, reduceMotion)}
-              className={`compliance-engine-system-status flex items-center gap-1.5 text-[0.66rem] text-charcoal/76 ${reduceMotion ? "is-static" : ""}`}
+              style={animationStyle(2.65, staticVisual)}
+              className={`compliance-engine-system-status flex items-center gap-1.5 text-[0.66rem] text-charcoal/76 ${staticVisual ? "is-static" : ""}`}
             >
               <span>System status</span>
               <span className="font-medium text-charcoal/82">All green</span>
             </div>
           </div>
           <div className="mt-2.25 flex flex-wrap gap-1.5">
-            {CHECKLIST_ITEMS.map((item, index) => (
+            {checklistItems.map((item, index) => (
               <div
                 key={item.label}
-                style={animationStyle(index * 0.22, reduceMotion)}
-                className={`compliance-engine-chip inline-flex items-center gap-1.5 rounded-full border border-[#55d388] bg-[#dcf8e7] px-2 py-0.75 text-[0.68rem] font-medium text-[#179a46] shadow-[0_10px_18px_-18px_rgba(23,154,70,0.45)] ${reduceMotion ? "is-static" : ""}`}
+                style={animationStyle(index * 0.22, staticVisual)}
+                className={`compliance-engine-chip inline-flex items-center gap-1.5 rounded-full border border-[#55d388] bg-[#dcf8e7] px-2 py-0.75 text-[0.68rem] font-medium text-[#179a46] shadow-[0_10px_18px_-18px_rgba(23,154,70,0.45)] ${staticVisual ? "is-static" : ""}`}
               >
                 <span className="inline-flex h-3.25 w-3.25 items-center justify-center rounded-full text-[#179a46]">
                   <CheckIcon className="h-2.4 w-2.4" />
@@ -245,8 +249,8 @@ export function ComplianceFilingsEngine() {
 
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           <section
-            style={animationStyle(1.15, reduceMotion)}
-            className={`compliance-engine-kpi rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.5 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${reduceMotion ? "is-static" : ""}`}
+            style={animationStyle(1.15, staticVisual)}
+            className={`compliance-engine-kpi rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.5 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${staticVisual ? "is-static" : ""}`}
           >
             <div className="flex items-start gap-2 text-[#29bf2a]">
               <ShieldIcon className="mt-0.5 h-5 w-5" />
@@ -263,8 +267,8 @@ export function ComplianceFilingsEngine() {
           </section>
 
           <section
-            style={animationStyle(1.45, reduceMotion)}
-            className={`compliance-engine-kpi rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.5 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${reduceMotion ? "is-static" : ""}`}
+            style={animationStyle(1.45, staticVisual)}
+            className={`compliance-engine-kpi rounded-[0.95rem] border border-black/8 bg-white/74 px-2.5 py-2.5 shadow-[0_14px_30px_-26px_rgba(17,17,19,0.2)] ${staticVisual ? "is-static" : ""}`}
           >
             <div className="flex items-start gap-2 text-[#b18cff]">
               <GlobeIcon className="mt-0.5 h-5 w-5" />
@@ -297,18 +301,18 @@ export function ComplianceFilingsEngine() {
               <div className="text-[0.64rem] text-charcoal/72">This month</div>
             </div>
             <div className="mt-2 space-y-1.25">
-              {FILING_ROWS.map((row, index) => (
+              {filingRows.map((row, index) => (
                 <div
                   key={row.label}
-                  style={animationStyle(1.9 + index * 0.28, reduceMotion)}
-                  className={`compliance-engine-filing-row compliance-engine-filing-row-${row.status} flex items-center justify-between gap-2 rounded-[0.82rem] border border-black/6 px-2.25 py-1.75 ${reduceMotion ? "is-static" : ""}`}
+                  style={animationStyle(1.9 + index * 0.28, staticVisual)}
+                  className={`compliance-engine-filing-row compliance-engine-filing-row-${row.status} flex items-center justify-between gap-2 rounded-[0.82rem] border border-black/6 px-2.25 py-1.75 ${staticVisual ? "is-static" : ""}`}
                 >
                   <span className="text-[0.8rem] font-medium text-ink/82 sm:text-[0.86rem]">
                     {row.label}
                   </span>
                   <span
-                    className={`compliance-engine-status compliance-engine-status-${row.status} inline-flex items-center rounded-full px-2 py-0.55 text-[0.62rem] font-medium ${reduceMotion ? "is-static" : ""}`}
-                  >
+                      className={`compliance-engine-status compliance-engine-status-${row.status} inline-flex items-center rounded-full px-2 py-0.55 text-[0.62rem] font-medium ${staticVisual ? "is-static" : ""}`}
+                   >
                     {row.status === "filed"
                       ? "Filed"
                       : row.status === "pending"
@@ -328,11 +332,11 @@ export function ComplianceFilingsEngine() {
               <div className="text-[0.64rem] text-charcoal/72">This month</div>
             </div>
             <div className="mt-2 grid grid-cols-2 gap-1.25">
-              {INSIGHT_TILES.map((tile, index) => (
+              {insightTiles.map((tile, index) => (
                 <div
                   key={tile.id}
-                  style={animationStyle(3.35 + index * 0.24, reduceMotion)}
-                  className={`compliance-engine-insight-tile compliance-engine-insight-${tile.accent} rounded-[0.82rem] border border-black/6 px-2 py-2 ${reduceMotion ? "is-static" : ""}`}
+                  style={animationStyle(3.35 + index * 0.24, staticVisual)}
+                  className={`compliance-engine-insight-tile compliance-engine-insight-${tile.accent} rounded-[0.82rem] border border-black/6 px-2 py-2 ${staticVisual ? "is-static" : ""}`}
                 >
                   <div className="flex items-start gap-2">
                     <InsightIcon
@@ -361,7 +365,7 @@ export function ComplianceFilingsEngine() {
                         : tile.id === "rd-credits"
                         ? "compliance-engine-rd-value"
                         : ""
-                    } ${reduceMotion ? "is-static" : ""}`}
+                    } ${staticVisual ? "is-static" : ""}`}
                   >
                     {tile.value}
                   </div>

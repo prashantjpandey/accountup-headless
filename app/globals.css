@@ -265,6 +265,10 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.55);
 }
 
+.core-service-visual-frame {
+  contain: layout paint;
+}
+
 @media (min-width: 40rem) {
   .core-service-visual {
     max-width: 26rem;
@@ -778,6 +782,13 @@ body {
   animation-delay: var(--reporting-delay, 0s);
 }
 
+.reporting-engine-line-path.is-static {
+  animation: none;
+  opacity: 1;
+  stroke-dashoffset: 0;
+  box-shadow: none;
+}
+
 .reporting-engine-line-point {
   fill: #ffffff;
   stroke: #31c62c;
@@ -924,6 +935,51 @@ body {
 
   .reporting-engine-plot {
     height: 13rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .finance-engine-stage,
+  .compliance-engine-stage,
+  .reporting-engine-stage,
+  .finance-engine-stage > div,
+  .compliance-engine-shell,
+  .reporting-engine-shell {
+    backdrop-filter: none;
+  }
+
+  .finance-engine-stage,
+  .compliance-engine-stage,
+  .reporting-engine-stage,
+  .core-service-visual .finance-engine-stage,
+  .core-service-visual .compliance-engine-stage,
+  .core-service-visual .reporting-engine-stage {
+    box-shadow: 0 14px 26px -24px rgba(17, 17, 19, 0.18);
+  }
+
+  .finance-engine-stage,
+  .compliance-engine-stage,
+  .reporting-engine-stage {
+    border-color: rgba(255, 255, 255, 0.78);
+  }
+
+  .finance-engine-stage {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 247, 252, 0.96) 100%);
+  }
+
+  .compliance-engine-stage,
+  .reporting-engine-stage {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 247, 252, 0.96) 100%);
+  }
+
+  .reporting-engine-chart {
+    min-height: 12.5rem;
+  }
+
+  .reporting-engine-plot {
+    height: 9.75rem;
   }
 }
 

@@ -13,6 +13,7 @@ import {
   softScaleIn,
   staggerContainer,
   subtleListStagger,
+  useCompactViewport,
   useReducedMotionSafe,
 } from "@/lib/animations";
 
@@ -28,6 +29,8 @@ const moduleStagger: Variants = {
 
 export function CoreServices() {
   const reduceMotion = useReducedMotionSafe();
+  const isCompactViewport = useCompactViewport();
+  const shouldAnimateInView = !reduceMotion && !isCompactViewport;
   const panelGradients: Record<string, string> = {
     "daily-ops": "from-primary/15 via-warm-peach/10 to-transparent",
     compliance: "from-purple/15 via-lavender-1/10 to-transparent",
@@ -39,12 +42,12 @@ export function CoreServices() {
       className="surface-default page-shell relative overflow-hidden section-space-lg"
       id="services"
       variants={fadeUp}
-      initial={reduceMotion ? false : "hidden"}
-      whileInView={reduceMotion ? undefined : "visible"}
+      initial={false}
+      whileInView={shouldAnimateInView ? "visible" : undefined}
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="absolute top-0 right-0 w-[420px] h-[320px] glow-blob-purple opacity-25 pointer-events-none" />
-      <div className="absolute -bottom-8 -left-14 w-[360px] h-[260px] glow-blob-orange opacity-20 pointer-events-none" />
+      <div className="pointer-events-none absolute top-0 right-0 hidden h-[320px] w-[420px] glow-blob-purple opacity-25 sm:block" />
+      <div className="pointer-events-none absolute -bottom-8 -left-14 hidden h-[260px] w-[360px] glow-blob-orange opacity-20 sm:block" />
       <div className="page-container relative">
         <motion.div className="mx-auto mb-14 max-w-3xl text-center md:mb-16" variants={staggerContainer}>
           <motion.p
@@ -81,8 +84,8 @@ export function CoreServices() {
               <motion.div
                 className="core-service-layout relative z-10 grid gap-8 lg:gap-10 xl:grid-cols-12 xl:gap-12"
                 variants={moduleStagger}
-                initial={reduceMotion ? false : "hidden"}
-                whileInView={reduceMotion ? undefined : "visible"}
+                initial={false}
+                whileInView={shouldAnimateInView ? "visible" : undefined}
                 viewport={{ once: true, amount: 0.3 }}
               >
                 <motion.div className="core-service-copy relative xl:col-span-5" variants={fadeUp}>
@@ -120,11 +123,11 @@ export function CoreServices() {
                     className="core-service-visual-frame overflow-hidden rounded-2xl transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transform-none xl:hover:-translate-y-0.5"
                   >
                     {service.id === "daily-ops" ? (
-                      <BookkeepingPayrollEngine />
+                      <BookkeepingPayrollEngine lite={isCompactViewport} />
                     ) : service.id === "compliance" ? (
-                      <ComplianceFilingsEngine />
+                      <ComplianceFilingsEngine lite={isCompactViewport} />
                     ) : service.id === "reporting" ? (
-                      <ReportingInsightsEngine />
+                      <ReportingInsightsEngine lite={isCompactViewport} />
                     ) : (
                       <DashboardVideo
                         src={videos.reportingInsights}

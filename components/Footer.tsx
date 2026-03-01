@@ -10,7 +10,7 @@ export function Footer() {
           <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/62 px-6 py-8 shadow-[0_20px_54px_-42px_rgba(15,23,42,0.35)] backdrop-blur-xl md:px-8 md:py-10 lg:px-10">
             <div className="pointer-events-none absolute -right-16 -top-14 h-56 w-56 rounded-full bg-lavender-1/35 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-16 -left-14 h-56 w-56 rounded-full bg-warm-peach/30 blur-3xl" />
-            <div className="relative grid gap-10 md:grid-cols-2 md:gap-12 lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] lg:gap-10">
+            <div className="relative grid gap-10 md:grid-cols-3 md:gap-12 lg:grid-cols-[minmax(0,1.2fr)_repeat(5,minmax(0,1fr))] lg:gap-8">
               <div className="max-w-xs md:max-w-sm">
                 <Link
                   href="/"
