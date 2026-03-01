@@ -41,7 +41,7 @@ export function StackBuilderCta() {
           </motion.p>
           <motion.div variants={fadeUp} transition={{ duration: 0.5, delay: 0.16 }}>
             <Button asChild variant="primary" size="lg" className="mt-9">
-              <Link href="/#contact">Get Started</Link>
+              <Link href="/finstack">Explore FinStack UK</Link>
             </Button>
           </motion.div>
         </motion.div>

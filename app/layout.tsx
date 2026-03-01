@@ -16,9 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Accountup – The Modern Accounting Firm for Startups",
+  title: "Accountup - The Modern Accounting Firm for Startups",
   description:
-    "Bookkeeping, payroll, compliance, and investor-ready reporting — built as a plug-and-play finance system for funded founders.",
+    "Bookkeeping, payroll, compliance, and investor-ready reporting - built as a plug-and-play finance system for funded founders.",
+  icons: {
+    icon: "/assets/logos/AccountUp_Logo.png",
+    apple: "/assets/logos/AccountUp_Logo.png",
+    shortcut: "/assets/logos/AccountUp_Logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -39,7 +44,9 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
