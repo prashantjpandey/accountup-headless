@@ -74,6 +74,7 @@ export function CoreServices() {
           {CORE_SERVICES.map((service) => (
             <Card
               key={service.id}
+              id={service.id}
               variant="lavender"
               interactive={false}
               className="relative overflow-hidden px-6 py-7 md:px-8 md:py-8 lg:px-9 lg:py-9"

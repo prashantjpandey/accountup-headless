@@ -5,49 +5,155 @@ export type NavLink =
       label: string;
     }
   | {
+      kind: "services";
+      label: string;
+    }
+  | {
       kind: "resources";
       label: string;
     };
 
+export type UnifiedMegaMenuItem = {
+  label: string;
+  href: string;
+  description: string;
+  iconKey:
+    | "core"
+    | "ops"
+    | "rd"
+    | "compliance"
+    | "reporting"
+    | "finstack"
+    | "calculator"
+    | "diagnostic"
+    | "utility"
+    | "case-study"
+    | "grants"
+    | "insights"
+    | "resources";
+};
+
+export type UnifiedMegaMenuColumn = {
+  title: string;
+  items: UnifiedMegaMenuItem[];
+};
+
+export type ServiceNavLink = {
+  label: string;
+  href: string;
+  description: string;
+};
+
 export type ResourceNavLink = {
   label: string;
   href: string;
+  description: string;
 };
 
 export type ResourceNavGroup = {
   title: string;
+  description?: string;
   links: ResourceNavLink[];
 };
+
+export const SERVICE_NAV_LINKS: ServiceNavLink[] = [
+  {
+    label: "Services Overview",
+    href: "/#services",
+    description: "See the full finance system.",
+  },
+  {
+    label: "Bookkeeping & Payroll",
+    href: "/#daily-ops",
+    description: "Clean books and payroll control.",
+  },
+  {
+    label: "Compliance & Filings",
+    href: "/#compliance",
+    description: "Deadlines, filings, and compliance.",
+  },
+  {
+    label: "Reporting & Insights",
+    href: "/#reporting",
+    description: "Dashboards and investor reporting.",
+  },
+  {
+    label: "R&D Tax Claims",
+    href: "/uk-rd-tax-claims",
+    description: "System-backed UK R&D claims.",
+  },
+] as const;
 
 export const RESOURCE_NAV_GROUPS: ResourceNavGroup[] = [
   {
     title: "Toolkit",
+    description: "Core hubs and stack planning.",
     links: [
-      { label: "Resources Hub", href: "/resources" },
-      { label: "FinStack UK", href: "/finstack" },
+      {
+        label: "Resources Hub",
+        href: "/resources",
+        description: "Browse all tools and guides.",
+      },
+      {
+        label: "FinStack UK",
+        href: "/finstack",
+        description: "Design your finance stack.",
+      },
     ],
   },
   {
     title: "Assessments",
+    description: "Quick ways to find gaps.",
     links: [
-      { label: "Calculators", href: "/resources/calculators" },
-      { label: "Finance Diagnostics", href: "/resources/diagnostics" },
+      {
+        label: "Calculators",
+        href: "/resources/calculators",
+        description: "Model key startup finance metrics.",
+      },
+      {
+        label: "Finance Diagnostics",
+        href: "/resources/diagnostics",
+        description: "Spot structural finance issues.",
+      },
     ],
   },
   {
     title: "Utilities",
-    links: [{ label: "Practical Utilities", href: "/resources/utilities" }],
+    description: "Useful founder tools.",
+    links: [
+      {
+        label: "Practical Utilities",
+        href: "/resources/utilities",
+        description: "Lightweight recurring finance tools.",
+      },
+    ],
   },
   {
     title: "Directory",
+    description: "Funding and examples.",
     links: [
-      { label: "Grants Directory", href: "/resources/grants" },
-      { label: "Case Studies", href: "/resources/case-studies" },
+      {
+        label: "Grants Directory",
+        href: "/resources/grants",
+        description: "Search UK grants and incentives.",
+      },
+      {
+        label: "Case Studies",
+        href: "/resources/case-studies",
+        description: "Real finance breakdowns.",
+      },
     ],
   },
   {
     title: "Insights",
-    links: [{ label: "Insights", href: "/insights" }],
+    description: "Practical reads for operators.",
+    links: [
+      {
+        label: "Insights",
+        href: "/insights",
+        description: "Short reads on finance decisions.",
+      },
+    ],
   },
 ] as const;
 
@@ -55,8 +161,104 @@ export const RESOURCE_NAV_LINKS: ResourceNavLink[] = RESOURCE_NAV_GROUPS.flatMap
   (group) => group.links,
 );
 
+export const UNIFIED_MEGA_MENU_COLUMNS: UnifiedMegaMenuColumn[] = [
+  {
+    title: "Core System",
+    items: [
+      {
+        label: "Core System",
+        href: "/#services",
+        description: "Overview of the finance engine.",
+        iconKey: "core",
+      },
+      {
+        label: "Bookkeeping Infrastructure",
+        href: "/#daily-ops",
+        description: "Books, payroll, and operating control.",
+        iconKey: "ops",
+      },
+      {
+        label: "R&D Tax Claims",
+        href: "/uk-rd-tax-claims",
+        description: "System-backed UK R&D claims.",
+        iconKey: "rd",
+      },
+      {
+        label: "VAT & Compliance",
+        href: "/#compliance",
+        description: "Filings, deadlines, and compliance.",
+        iconKey: "compliance",
+      },
+      {
+        label: "Investor Reporting",
+        href: "/#reporting",
+        description: "Dashboards and investor visibility.",
+        iconKey: "reporting",
+      },
+    ],
+  },
+  {
+    title: "Tools",
+    items: [
+      {
+        label: "FinStack UK",
+        href: "/finstack",
+        description: "Design your finance stack.",
+        iconKey: "finstack",
+      },
+      {
+        label: "Calculators",
+        href: "/resources/calculators",
+        description: "Model key finance decisions.",
+        iconKey: "calculator",
+      },
+      {
+        label: "Finance Diagnostics",
+        href: "/resources/diagnostics",
+        description: "Spot structural finance issues.",
+        iconKey: "diagnostic",
+      },
+      {
+        label: "Practical Utilities",
+        href: "/resources/utilities",
+        description: "Useful recurring finance tools.",
+        iconKey: "utility",
+      },
+    ],
+  },
+  {
+    title: "Learn & Proof",
+    items: [
+      {
+        label: "Case Studies",
+        href: "/resources/case-studies",
+        description: "Real finance breakdowns.",
+        iconKey: "case-study",
+      },
+      {
+        label: "Grants Directory",
+        href: "/resources/grants",
+        description: "Search UK grants and incentives.",
+        iconKey: "grants",
+      },
+      {
+        label: "Insights",
+        href: "/insights",
+        description: "Short reads for operators.",
+        iconKey: "insights",
+      },
+      {
+        label: "Resources Hub",
+        href: "/resources",
+        description: "Browse all tools and guides.",
+        iconKey: "resources",
+      },
+    ],
+  },
+] as const;
+
 export const NAV_LINKS: NavLink[] = [
-  { kind: "link", href: "/#services", label: "Services" },
+  { kind: "services", label: "Services" },
   { kind: "link", href: "/pricing", label: "Pricing" },
   { kind: "link", href: "/about", label: "About" },
   { kind: "resources", label: "Resources" },
@@ -68,9 +270,10 @@ export const FOOTER_COLUMNS = {
     { label: "Careers", href: "#" },
   ],
   Services: [
-    { label: "Bookkeeping", href: "/#services" },
-    { label: "Payroll", href: "/#services" },
-    { label: "Compliance", href: "/#services" },
+    { label: "Bookkeeping & Payroll", href: "/#daily-ops" },
+    { label: "Compliance & Filings", href: "/#compliance" },
+    { label: "Reporting & Insights", href: "/#reporting" },
+    { label: "R&D Tax Claims", href: "/uk-rd-tax-claims" },
   ],
   Resources: RESOURCE_NAV_LINKS,
   Legal: [

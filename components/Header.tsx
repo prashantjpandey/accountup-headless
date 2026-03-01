@@ -7,12 +7,19 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   NAV_LINKS,
-  RESOURCE_NAV_GROUPS,
+  RESOURCE_NAV_LINKS,
+  SERVICE_NAV_LINKS,
   type NavLink,
+  type ResourceNavLink,
+  type ServiceNavLink,
 } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
 
-function isResourceRoute(pathname: string) {
+function isServicesRoute(pathname: string) {
+  return pathname === "/" || pathname === "/uk-rd-tax-claims";
+}
+
+function isResourcesRoute(pathname: string) {
   return (
     pathname === "/resources" ||
     pathname.startsWith("/resources/") ||
@@ -32,7 +39,7 @@ function isNavLinkActive(pathname: string, href: string) {
   }
 
   if (href === "/resources") {
-    return pathname === href;
+    return pathname === href || pathname.startsWith("/resources/");
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -50,7 +57,7 @@ function desktopDropdownLinkClassName(isActive: boolean) {
   return `block rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200 ${
     isActive
       ? "bg-purple/8 text-purple"
-      : "text-charcoal hover:bg-black/4 hover:text-ink"
+      : "bg-black/[0.02] text-charcoal hover:bg-black/4 hover:text-ink"
   }`;
 }
 
@@ -58,7 +65,7 @@ function mobileLinkClassName(isActive: boolean) {
   return `block rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors duration-200 ${
     isActive
       ? "bg-purple/8 text-purple"
-      : "text-ink hover:bg-black/4 hover:text-purple"
+      : "bg-black/[0.02] text-ink hover:bg-black/4 hover:text-purple"
   }`;
 }
 
@@ -80,14 +87,20 @@ export function Header() {
   const isHome = pathname === "/";
   const reduceMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
   const navShellRef = useRef<HTMLDivElement>(null);
+  const servicesMenuRef = useRef<HTMLDivElement>(null);
   const resourcesMenuRef = useRef<HTMLDivElement>(null);
+  const desktopServicesId = "desktop-services-menu";
   const desktopResourcesId = "desktop-resources-menu";
+  const mobileServicesId = "mobile-services-menu";
   const mobileResourcesId = "mobile-resources-menu";
-  const resourcesActive = isResourceRoute(pathname);
+  const servicesActive = isServicesRoute(pathname);
+  const resourcesActive = isResourcesRoute(pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,8 +113,10 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    setIsServicesOpen(false);
     setIsResourcesOpen(false);
     setIsMobileMenuOpen(false);
+    setIsMobileServicesOpen(false);
     setIsMobileResourcesOpen(false);
   }, [pathname]);
 
@@ -123,6 +138,14 @@ export function Header() {
       const target = event.target as Node;
 
       if (
+        isServicesOpen &&
+        servicesMenuRef.current &&
+        !servicesMenuRef.current.contains(target)
+      ) {
+        setIsServicesOpen(false);
+      }
+
+      if (
         isResourcesOpen &&
         resourcesMenuRef.current &&
         !resourcesMenuRef.current.contains(target)
@@ -132,6 +155,7 @@ export function Header() {
 
       if (isMobileMenuOpen && navShellRef.current && !navShellRef.current.contains(target)) {
         setIsMobileMenuOpen(false);
+        setIsMobileServicesOpen(false);
         setIsMobileResourcesOpen(false);
       }
     }
@@ -141,8 +165,10 @@ export function Header() {
         return;
       }
 
+      setIsServicesOpen(false);
       setIsResourcesOpen(false);
       setIsMobileMenuOpen(false);
+      setIsMobileServicesOpen(false);
       setIsMobileResourcesOpen(false);
     }
 
@@ -153,11 +179,20 @@ export function Header() {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isMobileMenuOpen, isResourcesOpen]);
+  }, [isMobileMenuOpen, isServicesOpen, isResourcesOpen]);
 
   function closeMobileNavigation() {
     setIsMobileMenuOpen(false);
+    setIsMobileServicesOpen(false);
     setIsMobileResourcesOpen(false);
+  }
+
+  function handleDesktopServicesBlur(event: ReactFocusEvent<HTMLDivElement>) {
+    const nextFocused = event.relatedTarget as Node | null;
+
+    if (!nextFocused || !event.currentTarget.contains(nextFocused)) {
+      setIsServicesOpen(false);
+    }
   }
 
   function handleDesktopResourcesBlur(event: ReactFocusEvent<HTMLDivElement>) {
@@ -170,7 +205,9 @@ export function Header() {
 
   return (
     <motion.header
-      className={`${isHome ? "fixed" : "sticky"} top-0 z-50 w-full transition-[padding-top] duration-300 ${isScrolled ? "pt-3 md:pt-4" : "pt-4 md:pt-5"}`}
+      className={`${isHome ? "fixed" : "sticky"} top-0 z-50 w-full transition-[padding-top] duration-300 ${
+        isScrolled ? "pt-3 md:pt-4" : "pt-4 md:pt-5"
+      }`}
       initial={reduceMotion ? false : { opacity: 0 }}
       animate={reduceMotion ? undefined : { opacity: 1 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -214,62 +251,36 @@ export function Header() {
 
             <div className="absolute left-1/2 hidden -translate-x-1/2 md:flex md:items-center md:gap-6 lg:gap-7">
               {NAV_LINKS.map((item) =>
-                item.kind === "resources" ? (
-                  <div
+                item.kind === "services" ? (
+                  <DesktopDropdown
                     key={item.label}
-                    ref={resourcesMenuRef}
-                    className="relative"
-                    onMouseEnter={() => setIsResourcesOpen(true)}
-                    onMouseLeave={() => setIsResourcesOpen(false)}
-                    onFocusCapture={() => setIsResourcesOpen(true)}
-                    onBlurCapture={handleDesktopResourcesBlur}
-                  >
-                    <button
-                      type="button"
-                      className={`${navLinkClassName(resourcesActive)} inline-flex items-center gap-1.5 bg-transparent after:bottom-0`}
-                      aria-expanded={isResourcesOpen}
-                      aria-controls={desktopResourcesId}
-                      onClick={() => setIsResourcesOpen((current) => !current)}
-                    >
-                      <span>{item.label}</span>
-                      {renderChevron(isResourcesOpen)}
-                    </button>
-                    <AnimatePresence>
-                      {isResourcesOpen ? (
-                        <motion.div
-                          id={desktopResourcesId}
-                          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                          exit={reduceMotion ? undefined : { opacity: 0, y: 4 }}
-                          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                          className="absolute left-1/2 top-[calc(100%+1rem)] z-50 w-[18rem] -translate-x-1/2 rounded-[1.4rem] border border-white/85 bg-white/94 p-4 shadow-[0_22px_48px_-28px_rgba(15,23,42,0.3)] backdrop-blur-xl"
-                        >
-                          <div className="space-y-3">
-                            {RESOURCE_NAV_GROUPS.map((group) => (
-                              <div key={group.title}>
-                                <p className="px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-charcoal/72">
-                                  {group.title}
-                                </p>
-                                <div className="mt-1.5 space-y-1">
-                                  {group.links.map((link) => (
-                                    <Link
-                                      key={link.href}
-                                      href={link.href}
-                                      className={desktopDropdownLinkClassName(
-                                        isNavLinkActive(pathname, link.href),
-                                      )}
-                                    >
-                                      {link.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                  </div>
+                    label={item.label}
+                    isActive={servicesActive}
+                    isOpen={isServicesOpen}
+                    menuId={desktopServicesId}
+                    menuRef={servicesMenuRef}
+                    onOpen={() => setIsServicesOpen(true)}
+                    onClose={() => setIsServicesOpen(false)}
+                    onToggle={() => setIsServicesOpen((current) => !current)}
+                    onBlur={handleDesktopServicesBlur}
+                    pathname={pathname}
+                    links={SERVICE_NAV_LINKS}
+                  />
+                ) : item.kind === "resources" ? (
+                  <DesktopDropdown
+                    key={item.label}
+                    label={item.label}
+                    isActive={resourcesActive}
+                    isOpen={isResourcesOpen}
+                    menuId={desktopResourcesId}
+                    menuRef={resourcesMenuRef}
+                    onOpen={() => setIsResourcesOpen(true)}
+                    onClose={() => setIsResourcesOpen(false)}
+                    onToggle={() => setIsResourcesOpen((current) => !current)}
+                    onBlur={handleDesktopResourcesBlur}
+                    pathname={pathname}
+                    links={RESOURCE_NAV_LINKS}
+                  />
                 ) : (
                   <DesktopNavLink key={item.href} item={item} pathname={pathname} />
                 ),
@@ -307,50 +318,30 @@ export function Header() {
               >
                 <div className="space-y-2">
                   {NAV_LINKS.map((item) =>
-                    item.kind === "resources" ? (
-                      <div key={item.label} className="rounded-2xl border border-black/6 bg-black/[0.02] px-2 py-2">
-                        <button
-                          type="button"
-                          className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors duration-200 ${
-                            resourcesActive ? "text-purple" : "text-ink hover:text-purple"
-                          }`}
-                          aria-expanded={isMobileResourcesOpen}
-                          aria-controls={mobileResourcesId}
-                          onClick={() => setIsMobileResourcesOpen((current) => !current)}
-                        >
-                          <span>{item.label}</span>
-                          {renderChevron(isMobileResourcesOpen)}
-                        </button>
-                        <div
-                          id={mobileResourcesId}
-                          hidden={!isMobileResourcesOpen}
-                          className={isMobileResourcesOpen ? "block" : "hidden"}
-                        >
-                          <div className="mt-1 space-y-3 px-3 pb-2 pt-1">
-                            {RESOURCE_NAV_GROUPS.map((group) => (
-                              <div key={group.title}>
-                                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-charcoal/72">
-                                  {group.title}
-                                </p>
-                                <div className="mt-1.5 space-y-1">
-                                  {group.links.map((link) => (
-                                    <Link
-                                      key={link.href}
-                                      href={link.href}
-                                      className={mobileLinkClassName(
-                                        isNavLinkActive(pathname, link.href),
-                                      )}
-                                      onClick={closeMobileNavigation}
-                                    >
-                                      {link.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                    item.kind === "services" ? (
+                      <MobileDropdown
+                        key={item.label}
+                        label={item.label}
+                        isActive={servicesActive}
+                        isOpen={isMobileServicesOpen}
+                        menuId={mobileServicesId}
+                        onToggle={() => setIsMobileServicesOpen((current) => !current)}
+                        pathname={pathname}
+                        links={SERVICE_NAV_LINKS}
+                        onNavigate={closeMobileNavigation}
+                      />
+                    ) : item.kind === "resources" ? (
+                      <MobileDropdown
+                        key={item.label}
+                        label={item.label}
+                        isActive={resourcesActive}
+                        isOpen={isMobileResourcesOpen}
+                        menuId={mobileResourcesId}
+                        onToggle={() => setIsMobileResourcesOpen((current) => !current)}
+                        pathname={pathname}
+                        links={RESOURCE_NAV_LINKS}
+                        onNavigate={closeMobileNavigation}
+                      />
                     ) : (
                       <MobileNavLink
                         key={item.href}
@@ -361,7 +352,12 @@ export function Header() {
                     ),
                   )}
                   <div className="pt-2">
-                    <Button href="/#contact" variant="primary" className="w-full" onClick={closeMobileNavigation}>
+                    <Button
+                      href="/#contact"
+                      variant="primary"
+                      className="w-full"
+                      onClick={closeMobileNavigation}
+                    >
                       Contact Us
                     </Button>
                   </div>
@@ -375,14 +371,89 @@ export function Header() {
   );
 }
 
-function DesktopNavLink({ item, pathname }: { item: Extract<NavLink, { kind: "link" }>; pathname: string }) {
+function DesktopNavLink({
+  item,
+  pathname,
+}: {
+  item: Extract<NavLink, { kind: "link" }>;
+  pathname: string;
+}) {
   return (
-    <Link
-      href={item.href}
-      className={navLinkClassName(isNavLinkActive(pathname, item.href))}
-    >
+    <Link href={item.href} className={navLinkClassName(isNavLinkActive(pathname, item.href))}>
       {item.label}
     </Link>
+  );
+}
+
+function DesktopDropdown({
+  label,
+  isActive,
+  isOpen,
+  menuId,
+  menuRef,
+  onOpen,
+  onClose,
+  onToggle,
+  onBlur,
+  pathname,
+  links,
+}: {
+  label: string;
+  isActive: boolean;
+  isOpen: boolean;
+  menuId: string;
+  menuRef: React.RefObject<HTMLDivElement | null>;
+  onOpen: () => void;
+  onClose: () => void;
+  onToggle: () => void;
+  onBlur: (event: ReactFocusEvent<HTMLDivElement>) => void;
+  pathname: string;
+  links: readonly (ServiceNavLink | ResourceNavLink)[];
+}) {
+  return (
+    <div
+      ref={menuRef}
+      className="relative"
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+      onFocusCapture={onOpen}
+      onBlurCapture={onBlur}
+    >
+      <button
+        type="button"
+        className={`${navLinkClassName(isActive)} inline-flex items-center gap-1.5 bg-transparent after:bottom-0`}
+        aria-expanded={isOpen}
+        aria-controls={menuId}
+        onClick={onToggle}
+      >
+        <span>{label}</span>
+        {renderChevron(isOpen)}
+      </button>
+      <AnimatePresence>
+        {isOpen ? (
+          <motion.div
+            id={menuId}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-1/2 top-[calc(100%+1rem)] z-50 w-[16rem] -translate-x-1/2 rounded-[1.25rem] border border-white/88 bg-white/95 p-3 shadow-[0_20px_42px_-28px_rgba(15,23,42,0.24)] backdrop-blur-xl"
+          >
+            <div className="space-y-1">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={desktopDropdownLinkClassName(isNavLinkActive(pathname, link.href))}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -403,6 +474,57 @@ function MobileNavLink({
     >
       {item.label}
     </Link>
+  );
+}
+
+function MobileDropdown({
+  label,
+  isActive,
+  isOpen,
+  menuId,
+  onToggle,
+  pathname,
+  links,
+  onNavigate,
+}: {
+  label: string;
+  isActive: boolean;
+  isOpen: boolean;
+  menuId: string;
+  onToggle: () => void;
+  pathname: string;
+  links: readonly (ServiceNavLink | ResourceNavLink)[];
+  onNavigate: () => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-black/6 bg-black/[0.02] px-2 py-2">
+      <button
+        type="button"
+        className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors duration-200 ${
+          isActive ? "text-purple" : "text-ink hover:text-purple"
+        }`}
+        aria-expanded={isOpen}
+        aria-controls={menuId}
+        onClick={onToggle}
+      >
+        <span>{label}</span>
+        {renderChevron(isOpen)}
+      </button>
+      <div id={menuId} hidden={!isOpen} className={isOpen ? "block" : "hidden"}>
+        <div className="mt-1 space-y-1 px-3 pb-2 pt-1">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={mobileLinkClassName(isNavLinkActive(pathname, link.href))}
+              onClick={onNavigate}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

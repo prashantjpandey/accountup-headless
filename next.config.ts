@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/design-your-finops-stack",
+        destination: "/finstack",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
