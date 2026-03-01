@@ -58,12 +58,13 @@ export const RESOURCE_NAV_LINKS: ResourceNavLink[] = RESOURCE_NAV_GROUPS.flatMap
 export const NAV_LINKS: NavLink[] = [
   { kind: "link", href: "/#services", label: "Services" },
   { kind: "link", href: "/pricing", label: "Pricing" },
+  { kind: "link", href: "/about", label: "About" },
   { kind: "resources", label: "Resources" },
 ];
 
 export const FOOTER_COLUMNS = {
   Company: [
-    { label: "About", href: "#" },
+    { label: "About", href: "/about" },
     { label: "Careers", href: "#" },
   ],
   Services: [
