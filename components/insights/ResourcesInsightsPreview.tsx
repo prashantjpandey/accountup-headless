@@ -24,7 +24,7 @@ function InsightCardSkeleton() {
 
 export function ResourcesInsightsPreviewSkeleton() {
   return (
-    <div className="mt-8 grid gap-5 sm:gap-6 md:mt-10 md:grid-cols-2 xl:grid-cols-3">
+    <div className="mt-8 grid gap-5 sm:gap-6 md:mt-10 md:grid-cols-2">
       <InsightCardSkeleton />
       <InsightCardSkeleton />
       <InsightCardSkeleton />
@@ -43,7 +43,7 @@ export async function ResourcesInsightsPreview() {
   }
 
   return (
-    <div className="mt-8 grid gap-5 sm:gap-6 md:mt-10 md:grid-cols-2 xl:grid-cols-3">
+    <div className="mt-8 grid gap-5 sm:gap-6 md:mt-10 md:grid-cols-2">
       {insights.map((insight) => (
         <InsightCard key={insight.id} insight={insight} />
       ))}

@@ -44,6 +44,7 @@ export default function ResourcesPage() {
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-charcoal/80">
               <span className="rounded-full border border-black/8 bg-white/76 px-3 py-1">Calculators</span>
               <span className="rounded-full border border-black/8 bg-white/76 px-3 py-1">Diagnostics</span>
+              <span className="rounded-full border border-black/8 bg-white/76 px-3 py-1">FinStack UK</span>
               <span className="rounded-full border border-black/8 bg-white/76 px-3 py-1">Grants</span>
               <span className="rounded-full border border-black/8 bg-white/76 px-3 py-1">Insights</span>
             </div>
@@ -87,6 +88,45 @@ export default function ResourcesPage() {
         viewAllHref={utilities.href}
       />
 
+      <section className="page-shell py-10 sm:py-12 md:py-14">
+        <div className="page-container">
+          <Card
+            interactive={false}
+            variant="emphasized"
+            className="overflow-hidden border-purple/24 bg-[radial-gradient(circle_at_top_left,rgba(105,106,246,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(205,117,34,0.12),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.9))] p-6 md:p-8"
+          >
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] lg:items-end">
+              <div className="max-w-3xl">
+                <p className="eyebrow-chip">FinStack UK</p>
+                <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-ink sm:text-[2.2rem]">
+                  Curated Finance &amp; Accounting Tools for Startups / SMEs
+                </h2>
+                <p className="mt-4 text-base leading-8 text-charcoal">
+                  Explore a sharper finance tools directory built for startups and SMEs. Compare
+                  systems by category, surface stronger-fit options, and move toward a cleaner
+                  operating stack with more confidence.
+                </p>
+              </div>
+              <div className="rounded-[1.75rem] border border-purple/16 bg-white/86 px-5 py-5 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.28)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-charcoal/80">
+                  What you&apos;ll find
+                </p>
+                <ul className="mt-4 space-y-3 text-sm leading-7 text-charcoal">
+                  <li>Category-by-category finance tools relevant to startup and SME operators.</li>
+                  <li>Practical recommendations for shaping a cleaner finance stack.</li>
+                  <li>Clearer comparisons before you commit to new systems.</li>
+                </ul>
+                <div className="mt-6">
+                  <Button asChild variant="primary">
+                    <Link href="/finstack">Open FinStack UK</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       <section
         id={grants.id}
         className="page-shell scroll-mt-24 py-10 sm:py-12 md:py-14 md:scroll-mt-28"
@@ -97,9 +137,9 @@ export default function ResourcesPage() {
               UK Business Grants & Incentives Directory
             </h2>
             <p className="mt-3 text-sm leading-7 text-charcoal sm:text-base">
-              An interactive, decision-ready database of active government grants, subsidies, and
-              tax incentives across the United Kingdom. Filter by region, size, and industry to
-              find the exact support your business needs.
+              Search the live Accountup grants directory for active UK grants, subsidies, and tax
+              incentives. Filter by region, size, and benefit type to focus on the schemes worth
+              pursuing.
             </p>
           </div>
           <Card
@@ -112,17 +152,13 @@ export default function ResourcesPage() {
                 Find support that fits your business.
               </h3>
               <p className="mt-4 text-base leading-8 text-charcoal">
-                Search active UK grants, subsidies, and tax incentives with clear filters by
-                region, company size, and industry. Focus on the schemes that align with your
-                stage and operating goals.
+                Search the grants directory with practical filters for region, company size,
+                benefit type, and application complexity. Open each grant to review documents,
+                timing, match funding, and common rejection risks.
               </p>
               <div className="mt-6">
                 <Button asChild variant="primary">
-                  <Link
-                    href="https://gemini.google.com/share/de79f6ccd39f"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <Link href="/resources/grants">
                     Open Grants Directory
                   </Link>
                 </Button>

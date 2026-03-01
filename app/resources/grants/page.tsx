@@ -1,14 +1,46 @@
 import type { Metadata } from "next";
-import { ResourceSectionPage } from "@/components/ResourceSectionPage";
-import { getRequiredResourceSectionById } from "@/lib/resources";
+import { GrantsDirectoryPage } from "@/components/grants/GrantsDirectoryPage";
+import {
+  getAllGrantDirectoryItems,
+  getGrantBenefitTypeOptions,
+  getGrantBusinessSizeOptions,
+  getGrantRegionOptions,
+} from "@/lib/grants";
 
-const section = getRequiredResourceSectionById("grants");
-
-export const metadata: Metadata = {
-  title: `${section.pageTitle} - Accountup`,
-  description: section.pageDescription,
+type GrantsPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default function GrantsPage() {
-  return <ResourceSectionPage section={section} />;
+export const metadata: Metadata = {
+  title: "Government Grants & Incentives - Accountup",
+  description:
+    "Search the Accountup UK grants and incentives directory for active funding opportunities.",
+};
+
+export const revalidate = 300;
+
+function getSingleSearchParam(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] ?? "" : value ?? "";
+}
+
+export default async function GrantsPage({ searchParams }: GrantsPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const grants = await getAllGrantDirectoryItems();
+  const regionOptions = getGrantRegionOptions(grants);
+  const sizeOptions = getGrantBusinessSizeOptions(grants);
+  const benefitTypeOptions = getGrantBenefitTypeOptions(grants);
+
+  return (
+    <GrantsDirectoryPage
+      grants={grants}
+      regionOptions={regionOptions}
+      sizeOptions={sizeOptions}
+      benefitTypeOptions={benefitTypeOptions}
+      initialQuery={getSingleSearchParam(resolvedSearchParams?.q).trim()}
+      initialRegion={getSingleSearchParam(resolvedSearchParams?.region).trim()}
+      initialSize={getSingleSearchParam(resolvedSearchParams?.size).trim()}
+      initialType={getSingleSearchParam(resolvedSearchParams?.type).trim()}
+      initialComplexity={getSingleSearchParam(resolvedSearchParams?.complexity).trim()}
+    />
+  );
 }

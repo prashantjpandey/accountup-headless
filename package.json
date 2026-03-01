@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:calculator-content": "node scripts/seed-calculator-content.mjs"
+    "seed:calculator-content": "node scripts/seed-calculator-content.mjs",
+    "seed:finstack-uk": "node scripts/seed-finstack-uk.mjs",
+    "seed:uk-business-grants": "node scripts/seed-uk-business-grants.mjs"
   },
   "dependencies": {
     "@wix/data": "^1.0.404",

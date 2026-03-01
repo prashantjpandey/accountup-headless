@@ -198,36 +198,6 @@ const utilityToolItems: ResourceItem[] = [
   },
 ];
 
-const grantItems: ResourceItem[] = [
-  {
-    slug: "uk-rd-tax-credit",
-    title: "UK R&D Tax Credit",
-    description: "A placeholder breakdown of how innovation spend may convert into tax relief.",
-    href: "/resources/grants/uk-rd-tax-credit",
-    category: "grant",
-    linkLabel: "Open Grant",
-    iconKey: "grant",
-  },
-  {
-    slug: "innovation-grant-example",
-    title: "Innovation Grant Example",
-    description: "A sample grant profile founders can use to assess strategic fit and timing.",
-    href: "/resources/grants/innovation-grant-example",
-    category: "grant",
-    linkLabel: "Open Grant",
-    iconKey: "innovation",
-  },
-  {
-    slug: "hiring-subsidy-example",
-    title: "Hiring Subsidy Example",
-    description: "A placeholder subsidy brief showing where headcount incentives may apply.",
-    href: "/resources/grants/hiring-subsidy-example",
-    category: "grant",
-    linkLabel: "Open Grant",
-    iconKey: "subsidy",
-  },
-];
-
 const caseStudyItems: ResourceItem[] = [
   {
     slug: "saas-burn-recovery",
@@ -300,8 +270,8 @@ export const resourceSections: ResourceSection[] = [
     description:
       "Discover funding programs, tax credits, and incentive schemes your business may qualify for.",
     pageDescription:
-      "Explore placeholder grant and incentive profiles designed to support future expansion into a structured directory.",
-    items: grantItems,
+      "Search the live UK grants and incentives directory sourced from the Accountup Wix CMS collection.",
+    items: [],
   },
   {
     id: "case-studies",
@@ -329,13 +299,11 @@ export const allResources = [
   ...calculatorResources,
   ...diagnosticToolItems,
   ...utilityToolItems,
-  ...grantItems,
   ...caseStudyItems,
   ...insightItems,
 ];
 
 export const toolResources = [...diagnosticToolItems, ...utilityToolItems];
-export const grantResources = grantItems;
 export const caseStudyResources = caseStudyItems;
 export const insightResources = insightItems;
 

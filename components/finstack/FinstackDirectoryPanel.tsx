@@ -168,7 +168,7 @@ export function FinstackDirectoryPanel({
           ) : null}
         </div>
       ) : (
-        <div className="mt-8 grid items-start gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid items-start gap-5 sm:gap-6 md:grid-cols-2">
           {filteredTools.map((tool) => (
             <div key={tool.id}>
               <FinstackToolCard tool={tool} />
